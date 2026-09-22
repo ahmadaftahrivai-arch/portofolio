@@ -1,5 +1,6 @@
 import { Button } from '../components/ui/Button'
 import { Reveal } from '../components/Reveal'
+import { Typewriter } from '../components/Typewriter'
 import { ArrowRightIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { music } from '../data/music'
@@ -27,7 +28,7 @@ export function Home() {
         </h1>
 
         <p className="mt-4 text-sm font-medium uppercase tracking-widest text-accent-400">
-          {profile.role}
+          <Typewriter words={profile.roles} />
         </p>
 
         <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-300">

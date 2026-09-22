@@ -8,7 +8,8 @@ export interface SocialLink {
 
 export interface Profile {
   name: string
-  role: string
+  /** Cycled by the typewriter effect under the Hero heading, e.g. ['IT Student', 'Web Dev']. */
+  roles: string[]
   tagline: string
   bioHome: string
   bioAbout: string

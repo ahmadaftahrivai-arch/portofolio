@@ -9,13 +9,15 @@ import { education, experience } from '../data/timeline'
 import { projects } from '../data/projects'
 import { usePortfolioTab } from '../lib/portfolioTab'
 import type { PortfolioTab } from '../lib/portfolioTab.types'
+import { useSectionTransition } from '../lib/sectionTransition'
 
 export function About() {
   const { setTab } = usePortfolioTab()
+  const { navigateTo } = useSectionTransition()
 
   function goToPortfolio(tab: PortfolioTab) {
     setTab(tab)
-    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
+    navigateTo('portfolio', 'My Portfolio')
   }
 
   return (

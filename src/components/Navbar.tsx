@@ -1,12 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useActiveSection } from '../lib/useActiveSection'
 import { useSlidingIndicator } from '../lib/useSlidingIndicator'
+import { useSectionTransition } from '../lib/sectionTransition'
 
 const links = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'portfolio', label: 'Portfolio' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'home', label: 'Home', transitionLabel: 'Home' },
+  { id: 'about', label: 'About', transitionLabel: 'About Me' },
+  { id: 'portfolio', label: 'Portfolio', transitionLabel: 'My Portfolio' },
+  { id: 'contact', label: 'Contact', transitionLabel: "Let's Talk" },
 ]
 
 function GhostMascot() {
@@ -33,6 +34,7 @@ export function Navbar() {
   const [ghostX, setGhostX] = useState<number | null>(null)
   const { containerRef: navRef, register, rect: pillRect } = useSlidingIndicator<HTMLElement>(active)
   const [entered, setEntered] = useState(false)
+  const { navigateTo } = useSectionTransition()
 
   // One-time blur-to-focus entrance when the navbar first mounts (after
   // the intro loader hands off), matching the reference's page-load feel.
@@ -58,9 +60,9 @@ export function Navbar() {
     return () => window.removeEventListener('resize', measure)
   }, [active])
 
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>, id: string, transitionLabel: string) {
     e.preventDefault()
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    navigateTo(id, transitionLabel)
   }
 
   return (
@@ -96,7 +98,7 @@ export function Navbar() {
               register(link.id)(el)
             }}
             href={`#${link.id}`}
-            onClick={(e) => handleClick(e, link.id)}
+            onClick={(e) => handleClick(e, link.id, link.transitionLabel)}
             className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
               active === link.id ? 'text-space-950' : 'text-ink-300 hover:text-ink-100'
             }`}

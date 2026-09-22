@@ -23,13 +23,10 @@ export function Reveal({ children, className = '', delayMs = 0 }: RevealProps) {
       return
     }
 
+    // Replays every time the element crosses the viewport, in either
+    // scroll direction, instead of firing once and staying on forever.
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
+      ([entry]) => setVisible(entry.isIntersecting),
       { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
     )
     observer.observe(el)
@@ -39,7 +36,7 @@ export function Reveal({ children, className = '', delayMs = 0 }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
+      className={`[transform:translateZ(0)] transition-all duration-700 ease-out ${
         visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       } ${className}`}
       style={{ transitionDelay: visible ? `${delayMs}ms` : '0ms' }}

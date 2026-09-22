@@ -25,8 +25,7 @@ export function LightningBolt({ className = '' }: LightningBoltProps) {
         </filter>
       </defs>
       <path
-        d="M150 0 L96 150 L136 158 L60 300 L104 308 L34 470 L78 478 L20 560
-           M136 158 L170 170 L120 260"
+        d="M150 0 L96 150 L136 158 L60 300 L104 308 L34 470 L78 478 L20 560"
         stroke="#93c5fd"
         strokeWidth="5"
         strokeLinecap="round"

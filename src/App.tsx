@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Starfield } from './components/Starfield'
-import { CustomCursor } from './components/CustomCursor'
 import { Navbar } from './components/Navbar'
 import { IntroLoader } from './components/IntroLoader'
 import { Home } from './sections/Home'
@@ -12,14 +11,10 @@ import { profile } from './data/profile'
 
 function App() {
   const [introDone, setIntroDone] = useState(false)
-  const [canHover] = useState(
-    () => window.matchMedia('(hover: hover) and (pointer: fine)').matches,
-  )
 
   return (
     <PortfolioTabProvider>
       <Starfield />
-      {canHover && <CustomCursor />}
       {!introDone && <IntroLoader onDone={() => setIntroDone(true)} />}
 
       <Navbar />

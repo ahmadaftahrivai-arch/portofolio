@@ -7,6 +7,7 @@
   --color-space-700: #131729;
   --color-space-600: #1b2036;
 
+  --color-accent-300: #93c5fd;
   --color-accent-400: #60a5fa;
   --color-accent-500: #3b82f6;
   --color-accent-600: #2563eb;
@@ -57,18 +58,6 @@
   h3 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
-  }
-
-  /* App supplies its own cursor via CustomCursor; hide the native one on fine-pointer devices only */
-  @media (hover: hover) and (pointer: fine) {
-    body {
-      cursor: none;
-    }
-
-    a,
-    button {
-      cursor: none;
-    }
   }
 
   ::selection {

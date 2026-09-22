@@ -15,9 +15,9 @@ export const profile: Profile = {
   photoUrl: null, // TODO: taruh foto profil di src/assets/profile.jpg lalu import & isi di sini
   photoMorphUrl: null, // TODO: gambar kedua untuk efek morph (opsional), src/assets/profile-alt.jpg
   socials: [
-    // TODO: isi URL asli kamu, hapus baris yang tidak dipakai
-    { label: 'GitHub', url: 'https://github.com/TODO', icon: 'github' },
+    // TODO: isi URL & handle asli kamu, hapus baris yang tidak dipakai
+    { label: 'GitHub', url: 'https://github.com/TODO', icon: 'github', handle: '@TODO' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/TODO', icon: 'linkedin' },
-    { label: 'Instagram', url: 'https://instagram.com/TODO', icon: 'instagram' },
+    { label: 'Instagram', url: 'https://instagram.com/TODO', icon: 'instagram', handle: '@TODO' },
   ],
 }

@@ -2,6 +2,8 @@ export interface SocialLink {
   label: string
   url: string
   icon: 'github' | 'linkedin' | 'instagram' | 'email'
+  /** Shown as the card subtitle on Contact, e.g. '@username'. Optional. */
+  handle?: string
 }
 
 export interface Profile {

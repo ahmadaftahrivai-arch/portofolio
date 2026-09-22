@@ -2,15 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { Button } from '../components/ui/Button'
 import { Reveal } from '../components/Reveal'
 import { GuestbookComments } from '../components/GuestbookComments'
-import { GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from '../components/icons'
+import { SocialCard } from '../components/SocialCard'
 import { profile } from '../data/profile'
-
-const iconMap = {
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  instagram: InstagramIcon,
-  email: MailIcon,
-}
 
 const CONTACT_EMAIL = profile.socials.find((s) => s.icon === 'email')?.url
 
@@ -82,22 +75,10 @@ export function Contact() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-500">
               Find Me
             </p>
-            <div className="flex gap-3">
-              {profile.socials.map((social) => {
-                const Icon = iconMap[social.icon]
-                return (
-                  <a
-                    key={social.label}
-                    href={social.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={social.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-ink-300 transition-colors hover:border-accent-400 hover:text-accent-400"
-                  >
-                    <Icon width={18} height={18} />
-                  </a>
-                )
-              })}
+            <div className="flex flex-col gap-3">
+              {profile.socials.map((social) => (
+                <SocialCard key={social.label} social={social} />
+              ))}
             </div>
           </div>
         </Reveal>

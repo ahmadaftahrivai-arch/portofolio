@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-type IconProps = SVGProps<SVGSVGElement>
+export type IconProps = SVGProps<SVGSVGElement>
 
 const base = {
   width: 20,
@@ -71,6 +71,33 @@ export function ImageIcon(props: IconProps) {
       <rect x="3" y="3" width="18" height="18" rx="2" />
       <circle cx="8.5" cy="8.5" r="1.5" />
       <path d="m21 15-5-5L5 21" />
+    </svg>
+  )
+}
+
+export function CodeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m8 6-6 6 6 6M16 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+export function RibbonIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="8" r="5.5" />
+      <path d="m8.5 12.5-2 8 5.5-3 5.5 3-2-8" />
+    </svg>
+  )
+}
+
+export function TrophyIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+      <path d="M7 5H4a1 1 0 0 0-1 1v1a3 3 0 0 0 3 3M17 5h3a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3" />
+      <path d="M12 14v3M9 21h6M9.5 21c-.3-1.5-.2-2.7.5-4h4c.7 1.3.8 2.5.5 4" />
     </svg>
   )
 }

@@ -3,6 +3,7 @@ import { Reveal } from '../components/Reveal'
 import { PhotoMorph } from '../components/PhotoMorph'
 import { TimelineCard } from '../components/TimelineCard'
 import { StatCard } from '../components/StatCard'
+import { CodeIcon, RibbonIcon, TrophyIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { education, experience } from '../data/timeline'
 import { projects } from '../data/projects'
@@ -83,18 +84,21 @@ export function About() {
 
       <Reveal className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
+          icon={CodeIcon}
           label="Projects"
           value={projects.length}
           description="Innovative solutions crafted"
           onClick={() => goToPortfolio('projects')}
         />
         <StatCard
+          icon={RibbonIcon}
           label="Certificates"
           value={certificates.length}
           description="Skills validated"
           onClick={() => goToPortfolio('certificates')}
         />
         <StatCard
+          icon={TrophyIcon}
           label="Awards"
           value={awards.length}
           description="Achievements earned"

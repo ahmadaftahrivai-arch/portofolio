@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Starfield } from './components/Starfield'
+import { NebulaGlow } from './components/NebulaGlow'
 import { Navbar } from './components/Navbar'
 import { IntroLoader } from './components/IntroLoader'
 import { Home } from './sections/Home'
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <PortfolioTabProvider>
+      <NebulaGlow />
       <Starfield />
 
       {!introDone ? (

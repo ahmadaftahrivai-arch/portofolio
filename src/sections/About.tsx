@@ -19,7 +19,7 @@ export function About() {
   }
 
   return (
-    <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
+    <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 pt-24 pb-32">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_24rem_1fr]">
         <Reveal>
           <div>
@@ -64,7 +64,7 @@ export function About() {
         </Reveal>
       </div>
 
-      <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mt-28 grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>
           <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-ink-500">
             Education

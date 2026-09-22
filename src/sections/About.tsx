@@ -3,7 +3,7 @@ import { Reveal } from '../components/Reveal'
 import { PhotoMorph } from '../components/PhotoMorph'
 import { TimelineCard } from '../components/TimelineCard'
 import { StatCard } from '../components/StatCard'
-import { CodeIcon } from '../components/icons'
+import { CodeIcon, FileTextIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { education, experience } from '../data/timeline'
 import { projects } from '../data/projects'
@@ -22,20 +22,21 @@ export function About() {
     <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
       <Reveal className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
         <div>
-          <p className="text-sm font-medium uppercase tracking-widest text-accent-400">
-            Hi, I'm
-          </p>
-          <h2 className="mt-2 font-display text-4xl font-semibold text-ink-100">
-            {profile.name}
+          <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
+            <span className="text-accent-400">Hi, I'm</span>
+            <br />
+            <span className="bg-gradient-to-b from-ink-100 to-ink-500 bg-clip-text text-transparent">
+              {profile.name}
+            </span>
           </h2>
           <div className="mt-6">
             {profile.resumeUrl ? (
               <Button href={profile.resumeUrl} target="_blank" rel="noreferrer">
-                View Resume
+                <FileTextIcon width={18} height={18} /> View Resume
               </Button>
             ) : (
               <Button variant="outline" disabled title="Tambahkan resumeUrl di data/profile.ts">
-                View Resume
+                <FileTextIcon width={18} height={18} /> View Resume
               </Button>
             )}
           </div>

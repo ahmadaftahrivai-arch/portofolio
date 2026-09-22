@@ -92,6 +92,15 @@ export function RibbonIcon(props: IconProps) {
   )
 }
 
+export function FileTextIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M14 3v5h5M9 13h6M9 17h6" />
+    </svg>
+  )
+}
+
 export function TrophyIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

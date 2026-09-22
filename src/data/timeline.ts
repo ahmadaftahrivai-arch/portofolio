@@ -1,13 +1,14 @@
 import type { StatEntry, TimelineEntry } from './types'
+import umcLogo from '../assets/umc-logo.webp'
 
 // TODO(kamu): Ganti dengan riwayat pendidikan asli kamu, urut dari terbaru.
 export const education: TimelineEntry[] = [
   {
     id: 'edu-1',
-    title: 'TODO: Nama Kampus/Sekolah',
-    subtitle: 'TODO: Jurusan/Fakultas',
-    period: 'TODO: 2025 - Sekarang',
-    logoUrl: null,
+    title: 'Universitas Muhammadiyah Cirebon',
+    subtitle: 'Fakultas Teknik - Teknik Informatika',
+    period: 'TODO: tahun masuk - Sekarang', // TODO: isi tahun masuk kamu, mis. "2023 - Sekarang"
+    logoUrl: umcLogo,
   },
 ]
 

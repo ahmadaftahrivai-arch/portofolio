@@ -1,4 +1,5 @@
 import { Button } from '../components/ui/Button'
+import { Reveal } from '../components/Reveal'
 import { PhotoMorph } from '../components/PhotoMorph'
 import { TimelineCard } from '../components/TimelineCard'
 import { StatCard } from '../components/StatCard'
@@ -20,7 +21,7 @@ export function About() {
 
   return (
     <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
+      <Reveal className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
         <div>
           <p className="text-sm font-medium uppercase tracking-widest text-accent-400">
             Hi, I'm
@@ -55,9 +56,9 @@ export function About() {
             </Button>
           </div>
         </div>
-      </div>
+      </Reveal>
 
-      <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <Reveal className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>
           <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-ink-500">
             Education
@@ -78,9 +79,9 @@ export function About() {
             ))}
           </div>
         </div>
-      </div>
+      </Reveal>
 
-      <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <Reveal className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
           label="Projects"
           value={projects.length}
@@ -99,7 +100,7 @@ export function About() {
           description="Achievements earned"
           onClick={() => goToPortfolio('awards')}
         />
-      </div>
+      </Reveal>
     </section>
   )
 }

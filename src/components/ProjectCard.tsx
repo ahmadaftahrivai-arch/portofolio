@@ -4,10 +4,14 @@ import { ExternalLinkIcon } from './icons'
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
-      <div className="aspect-video w-full">
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-accent-400/40 hover:shadow-[0_12px_30px_rgba(37,99,235,0.15)]">
+      <div className="aspect-video w-full overflow-hidden">
         {project.imageUrl ? (
-          <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
         ) : (
           <Placeholder
             className="h-full w-full rounded-none border-0"

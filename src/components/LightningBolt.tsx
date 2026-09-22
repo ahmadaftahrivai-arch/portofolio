@@ -9,24 +9,26 @@ interface LightningBoltProps {
 export function LightningBolt({ className = '' }: LightningBoltProps) {
   return (
     <svg
-      viewBox="0 0 200 500"
+      viewBox="0 0 220 560"
       className={className}
       fill="none"
       aria-hidden="true"
     >
       <defs>
-        <filter id="bolt-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="6" result="blur" />
+        <filter id="bolt-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="10" result="blur" />
           <feMerge>
+            <feMergeNode in="blur" />
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
       </defs>
       <path
-        d="M120 0 L60 190 L110 200 L40 340 L95 350 L20 500"
-        stroke="#60a5fa"
-        strokeWidth="6"
+        d="M150 0 L96 150 L136 158 L60 300 L104 308 L34 470 L78 478 L20 560
+           M136 158 L170 170 L120 260"
+        stroke="#93c5fd"
+        strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"
         filter="url(#bolt-glow)"
@@ -38,15 +40,15 @@ export function LightningBolt({ className = '' }: LightningBoltProps) {
           stroke-dasharray: 1;
           stroke-dashoffset: 1;
           animation:
-            bolt-draw 1.1s ease-out forwards,
-            bolt-pulse 2.4s ease-in-out 1.1s infinite;
+            bolt-draw 1.2s ease-out forwards,
+            bolt-pulse 2.2s ease-in-out 1.2s infinite;
         }
         @keyframes bolt-draw {
           to { stroke-dashoffset: 0; }
         }
         @keyframes bolt-pulse {
-          0%, 100% { opacity: 0.75; }
-          50% { opacity: 1; }
+          0%, 100% { opacity: 0.7; filter: url(#bolt-glow) brightness(1); }
+          50% { opacity: 1; filter: url(#bolt-glow) brightness(1.3); }
         }
         @media (prefers-reduced-motion: reduce) {
           .bolt-path {

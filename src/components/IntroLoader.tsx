@@ -45,7 +45,7 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-space-950 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-space-950/40 backdrop-blur-[1px] transition-opacity duration-500 ${
         leaving ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
       role="status"

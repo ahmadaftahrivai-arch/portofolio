@@ -6,6 +6,7 @@ import { awards } from '../data/awards'
 import { techStack } from '../data/techStack'
 import { ProjectCard } from '../components/ProjectCard'
 import { Placeholder } from '../components/ui/Placeholder'
+import { Reveal } from '../components/Reveal'
 
 const tabs: { id: PortfolioTab; label: string }[] = [
   { id: 'projects', label: 'Projects' },
@@ -19,24 +20,28 @@ export function Portfolio() {
 
   return (
     <section id="portfolio" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
-      <h2 className="text-center font-display text-4xl font-semibold text-ink-100">Portfolio</h2>
+      <Reveal>
+        <h2 className="text-center font-display text-4xl font-semibold text-ink-100">
+          Portfolio
+        </h2>
 
-      <div className="mx-auto mt-10 flex max-w-2xl flex-wrap justify-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1.5">
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              tab === t.id ? 'bg-accent-500 text-space-950' : 'text-ink-300 hover:text-ink-100'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+        <div className="mx-auto mt-10 flex max-w-2xl flex-wrap justify-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1.5">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setTab(t.id)}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                tab === t.id ? 'bg-accent-500 text-space-950' : 'text-ink-300 hover:text-ink-100'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </Reveal>
 
-      <div className="mt-10">
+      <Reveal key={tab} className="mt-10">
         {tab === 'projects' && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((p) => (
@@ -100,7 +105,7 @@ export function Portfolio() {
             ))}
           </div>
         )}
-      </div>
+      </Reveal>
     </section>
   )
 }

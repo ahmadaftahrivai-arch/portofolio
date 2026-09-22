@@ -4,7 +4,6 @@ import { Typewriter } from '../components/Typewriter'
 import { ArrowRightIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { music } from '../data/music'
-import { useSectionTransition } from '../lib/sectionTransition'
 
 const iconMap = {
   github: GithubIcon,
@@ -14,8 +13,6 @@ const iconMap = {
 }
 
 export function Home() {
-  const { navigateTo } = useSectionTransition()
-
   return (
     <section
       id="home"
@@ -41,7 +38,7 @@ export function Home() {
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Button href="#portfolio" onClick={(e) => {
             e.preventDefault()
-            navigateTo('portfolio', 'My Portfolio')
+            document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
           }}>
             Project <ArrowRightIcon />
           </Button>
@@ -50,7 +47,7 @@ export function Home() {
             href="#contact"
             onClick={(e) => {
               e.preventDefault()
-              navigateTo('contact', "Let's Talk")
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
             }}
           >
             Contact Me

@@ -3,14 +3,14 @@ import type { Profile } from './types'
 // TODO(kamu): Ganti semua nilai di bawah ini dengan data asli kamu.
 export const profile: Profile = {
   name: 'Ahmad Aftah Rivai',
-  role: 'TODO: Peran/status kamu, mis. "Mahasiswa Ilmu Komputer"',
+  role: 'IT Student · Web Developer',
   // Baris pertama headline Hero — jaga tetap pendek (2-4 kata), mis. "Turning Ideas".
   // Baris kedua ("Into Reality") ada di kode Home.tsx, ganti langsung di sana kalau perlu.
-  tagline: 'TODO: Tagline Pendek',
+  tagline: 'Turning Ideas',
   bioHome:
-    'TODO: 2-3 kalimat pembuka di section Home. Ceritakan fokus kamu dan apa yang kamu bangun.',
+    'Mahasiswa IT yang fokus di web development. Aku suka mengubah ide jadi produk digital yang bukan cuma jalan, tapi juga enak dipakai.',
   bioAbout:
-    'TODO: 2-4 kalimat bio lebih detail untuk section About. Latar belakang, kampus/jurusan, minat.',
+    'Sebagai mahasiswa IT, aku fokus membangun aplikasi web yang fungsional sekaligus nyaman digunakan. Berawal dari rasa penasaran coba-coba ngoding, sekarang aku terus belajar teknologi baru untuk menghadirkan pengalaman digital yang lebih baik.',
   resumeUrl: null, // TODO: taruh file CV di public/resume.pdf lalu isi '/resume.pdf'
   photoUrl: null, // TODO: taruh foto profil di src/assets/profile.jpg lalu import & isi di sini
   photoMorphUrl: null, // TODO: gambar kedua untuk efek morph (opsional), src/assets/profile-alt.jpg

@@ -29,8 +29,8 @@ export function Contact() {
         </p>
       </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <Reveal>
+      <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Reveal className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
               type="text"
@@ -83,7 +83,10 @@ export function Contact() {
           </div>
         </Reveal>
 
-        <Reveal delayMs={100}>
+        <Reveal
+          delayMs={100}
+          className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8"
+        >
           <GuestbookComments />
         </Reveal>
       </div>

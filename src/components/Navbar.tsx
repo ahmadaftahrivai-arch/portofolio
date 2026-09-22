@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useActiveSection } from '../lib/useActiveSection'
 import { useSlidingIndicator } from '../lib/useSlidingIndicator'
 
@@ -32,6 +32,14 @@ export function Navbar() {
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({})
   const [ghostX, setGhostX] = useState<number | null>(null)
   const { containerRef: navRef, register, rect: pillRect } = useSlidingIndicator<HTMLElement>(active)
+  const [entered, setEntered] = useState(false)
+
+  // One-time blur-to-focus entrance when the navbar first mounts (after
+  // the intro loader hands off), matching the reference's page-load feel.
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setEntered(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   // Keeps the little ghost mascot centered above whichever nav link is
   // currently active, instead of tracking the raw mouse position.
@@ -69,7 +77,9 @@ export function Navbar() {
 
       <nav
         ref={navRef}
-        className="relative flex items-center gap-1 rounded-full border border-white/10 bg-space-900/25 p-1.5 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+        className={`relative flex items-center gap-1 rounded-full border border-white/10 bg-space-900/25 p-1.5 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-all duration-700 ease-out ${
+          entered ? 'translate-y-0 opacity-100 blur-none' : '-translate-y-3 opacity-0 blur-sm'
+        }`}
       >
         {pillRect && (
           <span

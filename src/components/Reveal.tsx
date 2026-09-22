@@ -7,8 +7,9 @@ interface RevealProps {
 }
 
 /**
- * Fades + slides content up the first time it scrolls into view. Skips
- * straight to visible under prefers-reduced-motion.
+ * Fades + slides content up (with a blur-to-focus pull) each time it
+ * crosses the viewport. Skips straight to visible under
+ * prefers-reduced-motion.
  */
 export function Reveal({ children, className = '', delayMs = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -37,7 +38,7 @@ export function Reveal({ children, className = '', delayMs = 0 }: RevealProps) {
     <div
       ref={ref}
       className={`[transform:translateZ(0)] transition-all duration-700 ease-out ${
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+        visible ? 'translate-y-0 opacity-100 blur-none' : 'translate-y-8 opacity-0 blur-sm'
       } ${className}`}
       style={{ transitionDelay: visible ? `${delayMs}ms` : '0ms' }}
     >

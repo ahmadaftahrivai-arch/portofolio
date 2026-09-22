@@ -39,6 +39,52 @@ Semua ditandai `TODO` di kode agar gampang dicari (`grep -rn "TODO" src`).
       submit langsung tanpa buka aplikasi email, sambungkan ke layanan seperti
       Formspree/Resend — ini sengaja belum dipasang otomatis.
 
+## Guestbook (komentar publik di Contact)
+
+Section Contact punya kolom "Komentar" yang bisa diisi pengunjung (nama + pesan,
+tersimpan permanen dan kelihatan oleh semua orang). Ini butuh database Supabase —
+sampai kamu setup, kolom ini otomatis nampilin pesan "belum terhubung", bukan data
+palsu.
+
+Setup (gratis, ~5 menit):
+
+1. Buat akun & project baru di [supabase.com](https://supabase.com).
+2. Di dashboard project, buka **SQL Editor** → jalankan:
+
+   ```sql
+   create table if not exists comments (
+     id uuid primary key default gen_random_uuid(),
+     name text not null,
+     message text not null,
+     created_at timestamptz not null default now()
+   );
+
+   alter table comments enable row level security;
+
+   create policy "Public can read comments"
+     on comments for select
+     using (true);
+
+   create policy "Public can insert comments"
+     on comments for insert
+     with check (true);
+   ```
+
+3. Buka **Project Settings → API**, salin **Project URL** dan **anon public key**.
+4. Buat file `.env.local` di root project (salin dari `.env.example`) dan isi:
+
+   ```
+   VITE_SUPABASE_URL=https://xxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJ...
+   ```
+
+5. Untuk versi live (Vercel): buka **Project Settings → Environment Variables**,
+   tambahkan `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` yang sama, lalu redeploy.
+
+Catatan: policy di atas mengizinkan siapa saja menulis komentar (guestbook publik,
+sama seperti referensinya) — tidak ada login. Kalau nanti spam jadi masalah, opsi
+paling gampang adalah menambah rate-limit atau captcha di depan form ini.
+
 ## Gambar
 
 Taruh aset di `src/assets/` (untuk yang di-import lewat kode, kena hash saat build) atau

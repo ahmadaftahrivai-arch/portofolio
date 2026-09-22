@@ -279,7 +279,11 @@ section { position: relative; padding: 7rem 1.25rem 4rem; max-width: 1180px; mar
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-.ico { display: inline-block; font-style: normal; line-height: 1; }
+.ico { display: inline-flex; }
+.icon { width: 1.1em; height: 1.1em; vertical-align: -0.18em; flex-shrink: 0; }
+.icon-btn .icon { width: 18px; height: 18px; }
+.thumb .icon { width: 2.4rem; height: 2.4rem; }
+.comment-avatar .icon { width: 16px; height: 16px; }
 
 .thumb {
   height: 160px;

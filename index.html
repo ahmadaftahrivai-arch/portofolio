@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ahmad Aftah Rivai | Portfolio</title>
+<meta name="description" content="Portfolio website — projects, certificates, awards, and tech stack." />
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div id="starfield"></div>
+
+<!-- Preloader -->
+<div id="preloader">
+  <svg viewBox="0 0 40 64">
+    <path class="bolt-path" d="M24 2 8 34h10l-4 28 20-36H22z"/>
+  </svg>
+  <div class="welcome-text">
+    <p>Welcome To My</p>
+    <h2>Portfolio Website</h2>
+  </div>
+  <div>
+    <div class="loader-bar"><div class="loader-bar-fill" id="loader-fill"></div></div>
+    <div class="loader-pct" id="loader-pct">0%</div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="nav-pill">
+    <div class="nav-indicator"></div>
+    <a href="#home" class="nav-link active">Home</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#portfolio" class="nav-link">Portfolio</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<!-- ===================== HOME ===================== -->
+<section id="home">
+  <div class="grid md:grid-cols-2 gap-12 items-center w-full">
+    <div class="reveal">
+      <span class="eyebrow">Portfolio Website</span>
+      <h1 class="font-display text-4xl sm:text-5xl font-bold leading-tight mb-4">
+        <span class="text-blue-400">Turning Ideas</span><br />
+        <span class="text-white">Into Reality</span>
+      </h1>
+      <p class="text-slate-300 font-medium mb-3">Mahasiswa / Profesi Kamu</p>
+      <p class="text-slate-400 mb-8 max-w-md">
+        Dimulai dari rasa penasaran, berkembang menjadi passion. Aku membangun pengalaman
+        digital yang tidak hanya terlihat bagus, tapi juga terasa bermakna bagi penggunanya.
+      </p>
+      <div class="flex flex-wrap gap-4 mb-8">
+        <a href="#portfolio" class="btn btn-primary">Project <span class="ico">→</span></a>
+        <a href="#contact" class="btn btn-outline">Contact Me</a>
+      </div>
+      <div>
+        <p class="text-xs tracking-widest text-slate-500 font-semibold mb-3">FIND ME</p>
+        <div class="flex gap-3">
+          <a href="https://github.com/ahmadaftahrivai-arch" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">GH</a>
+          <a href="#" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">in</a>
+          <a href="#" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">IG</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal card p-5" style="transition-delay:.15s">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-white font-semibold">🎧 What I'm Listening To</h3>
+        <span class="ico text-green-500 text-xl">♫</span>
+      </div>
+      <div class="flex items-center gap-3 mb-4 p-3 rounded-xl" style="background:rgba(255,255,255,.04)">
+        <div class="w-14 h-14 rounded-lg flex items-center justify-center text-2xl" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">
+          <span class="ico text-white">♪</span>
+        </div>
+        <div>
+          <p class="text-white font-semibold text-sm">Judul Lagu Favorit</p>
+          <p class="text-slate-400 text-xs">Nama Artis</p>
+        </div>
+      </div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex justify-between text-slate-300"><span>1. Lagu Pertama</span><span class="text-slate-500">03:45</span></li>
+        <li class="flex justify-between text-slate-300"><span>2. Lagu Kedua</span><span class="text-slate-500">04:10</span></li>
+        <li class="flex justify-between text-slate-300"><span>3. Lagu Ketiga</span><span class="text-slate-500">03:12</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <h2 class="section-title reveal">About <span>Me</span></h2>
+
+  <div class="grid md:grid-cols-3 gap-10 items-center mb-16">
+    <div class="flex flex-col items-center text-center reveal">
+      <div class="avatar-ring mb-4">
+        <div class="w-40 h-40 rounded-full flex items-center justify-center text-5xl font-bold text-white" style="background:linear-gradient(135deg,#0a0e1a,#1e3a5f)">
+          AA
+        </div>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-white">Hi, I'm <span class="text-blue-400">Ahmad Aftah Rivai</span></h3>
+      <a href="assets/resume.pdf" class="btn btn-primary mt-4" download>
+        <span class="ico">⬇</span> View Resume
+      </a>
+    </div>
+
+    <div class="md:col-span-2 reveal" style="transition-delay:.1s">
+      <p class="text-slate-300 leading-relaxed mb-6">
+        Sebagai mahasiswa / profesional di bidang teknologi, aku berfokus pada pengembangan
+        solusi digital yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman yang
+        menarik dan berdampak bagi penggunanya. Tulis ceritamu sendiri di sini — latar
+        belakang, minat, dan apa yang membuatmu bersemangat membangun sesuatu.
+      </p>
+      <a href="#portfolio" class="btn btn-outline"><span class="ico">🗂</span> View Projects</a>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6 mb-12">
+    <div class="card p-5 reveal">
+      <h3 class="text-white font-semibold mb-4 flex items-center gap-2"><span class="ico text-blue-400">🎓</span> Education</h3>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500/15"><span class="ico text-blue-400">🏛</span></div>
+          <div>
+            <p class="text-white text-sm font-semibold">Nama Universitas</p>
+            <p class="text-slate-400 text-xs">Jurusan / Program Studi · 2025 – Sekarang</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500/15"><span class="ico text-blue-400">🏫</span></div>
+          <div>
+            <p class="text-white text-sm font-semibold">Nama Sekolah</p>
+            <p class="text-slate-400 text-xs">Jurusan · 2021 – 2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-5 reveal" style="transition-delay:.1s">
+      <h3 class="text-white font-semibold mb-4 flex items-center gap-2"><span class="ico text-blue-400">👥</span> Organizations & Experience</h3>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500/15"><span class="ico text-blue-400">👥</span></div>
+          <div>
+            <p class="text-white text-sm font-semibold">Nama Organisasi</p>
+            <p class="text-slate-400 text-xs">Peran · 2025 – 2026</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500/15"><span class="ico text-blue-400">💼</span></div>
+          <div>
+            <p class="text-white text-sm font-semibold">Nama Internship / Kegiatan</p>
+            <p class="text-slate-400 text-xs">Peran · 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4">
+    <div class="card p-5 text-center reveal">
+      <span class="ico text-blue-400 text-xl mb-2">💻</span>
+      <div class="stat-value"><span class="counter" data-target="6">0</span></div>
+      <p class="text-slate-400 text-xs uppercase tracking-wide">Projects</p>
+    </div>
+    <div class="card p-5 text-center reveal" style="transition-delay:.1s">
+      <span class="ico text-blue-400 text-xl mb-2">📜</span>
+      <div class="stat-value"><span class="counter" data-target="5">0</span></div>
+      <p class="text-slate-400 text-xs uppercase tracking-wide">Certificates</p>
+    </div>
+    <div class="card p-5 text-center reveal" style="transition-delay:.2s">
+      <span class="ico text-blue-400 text-xl mb-2">🏆</span>
+      <div class="stat-value"><span class="counter" data-target="4">0</span></div>
+      <p class="text-slate-400 text-xs uppercase tracking-wide">Awards</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PORTFOLIO ===================== -->
+<section id="portfolio">
+  <h2 class="section-title reveal">Port<span>folio</span></h2>
+
+  <div class="tab-bar reveal">
+    <div class="tab-indicator"></div>
+    <button class="tab-btn active" data-tab="projects"><span class="ico">💻</span> Projects</button>
+    <button class="tab-btn" data-tab="certificates"><span class="ico">📜</span> Certificates</button>
+    <button class="tab-btn" data-tab="awards"><span class="ico">🏆</span> Awards</button>
+    <button class="tab-btn" data-tab="techstack"><span class="ico">🧩</span> Tech Stack</button>
+  </div>
+
+  <div id="panel-projects" class="tab-panel active">
+    <div id="projects-grid" class="grid md:grid-cols-3 gap-6"></div>
+  </div>
+
+  <div id="panel-certificates" class="tab-panel">
+    <div id="certificates-grid" class="grid md:grid-cols-3 gap-5"></div>
+  </div>
+
+  <div id="panel-awards" class="tab-panel">
+    <div id="awards-grid" class="grid md:grid-cols-2 gap-5"></div>
+  </div>
+
+  <div id="panel-techstack" class="tab-panel">
+    <div id="techstack-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4"></div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact">
+  <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+
+  <div class="grid md:grid-cols-2 gap-8 mb-14">
+    <form id="contact-form" class="card p-6 space-y-4 reveal">
+      <h3 class="text-white font-semibold mb-2">Hubungi Saya</h3>
+      <input name="name" type="text" required placeholder="Nama Anda" class="field" />
+      <input name="email" type="email" required placeholder="Email Anda" class="field" />
+      <textarea name="message" required rows="4" placeholder="Pesan Anda" class="field"></textarea>
+      <button type="submit" class="btn btn-primary w-full justify-center">
+        <span class="ico">➤</span> Kirim Pesan
+      </button>
+    </form>
+
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="card p-6 mb-6">
+        <p class="text-xs tracking-widest text-slate-500 font-semibold mb-3">FIND ME</p>
+        <div class="space-y-3">
+          <a href="#" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+            <div class="icon-btn">in</div>
+            <div>
+              <p class="text-white text-sm font-semibold">Let's Connect</p>
+              <p class="text-slate-400 text-xs">on LinkedIn</p>
+            </div>
+          </a>
+          <a href="https://github.com/ahmadaftahrivai-arch" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+            <div class="icon-btn">GH</div>
+            <div>
+              <p class="text-white text-sm font-semibold">Check My Code</p>
+              <p class="text-slate-400 text-xs">on GitHub</p>
+            </div>
+          </a>
+          <a href="mailto:ahmadaftahrivai@gmail.com" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+            <div class="icon-btn"><span class="ico">✉</span></div>
+            <div>
+              <p class="text-white text-sm font-semibold">Send an Email</p>
+              <p class="text-slate-400 text-xs">ahmadaftahrivai@gmail.com</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card p-6 reveal">
+    <h3 class="text-white font-semibold mb-4">Guestbook</h3>
+    <form id="guestbook-form" class="grid sm:grid-cols-[1fr_2fr_auto] gap-3 mb-6">
+      <input name="gbname" type="text" required placeholder="Nama" class="field" />
+      <input name="gbmessage" type="text" required placeholder="Tulis komentar..." class="field" />
+      <button type="submit" class="btn btn-primary justify-center">Kirim</button>
+    </form>
+    <div id="guestbook-list"></div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; <span id="year"></span> Ahmad Aftah Rivai. Built with HTML, CSS & JavaScript.</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

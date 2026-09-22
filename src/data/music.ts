@@ -7,6 +7,6 @@
  * copy the src URL from the generated <iframe>, and paste it below.
  */
 export const music = {
-  enabled: false,
-  embedUrl: null as string | null, // e.g. 'https://open.spotify.com/embed/playlist/xxxxx'
+  enabled: true,
+  embedUrl: 'https://open.spotify.com/embed/playlist/2kZBw4l09qweuDTvhvNTwS' as string | null,
 }

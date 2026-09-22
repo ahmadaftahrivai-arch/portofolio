@@ -3,12 +3,10 @@ import { Reveal } from '../components/Reveal'
 import { PhotoMorph } from '../components/PhotoMorph'
 import { TimelineCard } from '../components/TimelineCard'
 import { StatCard } from '../components/StatCard'
-import { CodeIcon, RibbonIcon, TrophyIcon } from '../components/icons'
+import { CodeIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { education, experience } from '../data/timeline'
 import { projects } from '../data/projects'
-import { certificates } from '../data/certificates'
-import { awards } from '../data/awards'
 import { usePortfolioTab } from '../lib/portfolioTab'
 import type { PortfolioTab } from '../lib/portfolioTab.types'
 
@@ -86,32 +84,14 @@ export function About() {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Reveal delayMs={0}>
+      <div className="mt-16 max-w-xs">
+        <Reveal>
           <StatCard
             icon={CodeIcon}
             label="Projects"
             value={projects.length}
             description="Innovative solutions crafted"
             onClick={() => goToPortfolio('projects')}
-          />
-        </Reveal>
-        <Reveal delayMs={100}>
-          <StatCard
-            icon={RibbonIcon}
-            label="Certificates"
-            value={certificates.length}
-            description="Skills validated"
-            onClick={() => goToPortfolio('certificates')}
-          />
-        </Reveal>
-        <Reveal delayMs={200}>
-          <StatCard
-            icon={TrophyIcon}
-            label="Awards"
-            value={awards.length}
-            description="Achievements earned"
-            onClick={() => goToPortfolio('awards')}
           />
         </Reveal>
       </div>

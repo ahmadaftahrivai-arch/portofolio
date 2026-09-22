@@ -20,7 +20,7 @@ export function About() {
 
   return (
     <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
-      <Reveal className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
+      <Reveal className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_24rem_1fr]">
         <div>
           <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">
             <span className="text-accent-400">Hi, I'm</span>

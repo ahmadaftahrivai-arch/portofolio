@@ -2,7 +2,7 @@ import type { Profile } from './types'
 
 // TODO(kamu): Ganti semua nilai di bawah ini dengan data asli kamu.
 export const profile: Profile = {
-  name: 'TODO: Nama Lengkap Kamu',
+  name: 'Ahmad Aftah Rivai',
   role: 'TODO: Peran/status kamu, mis. "Mahasiswa Ilmu Komputer"',
   // Baris pertama headline Hero — jaga tetap pendek (2-4 kata), mis. "Turning Ideas".
   // Baris kedua ("Into Reality") ada di kode Home.tsx, ganti langsung di sana kalau perlu.

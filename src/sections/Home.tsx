@@ -18,7 +18,7 @@ export function Home() {
       className="mx-auto flex min-h-screen max-w-6xl scroll-mt-8 flex-col justify-center gap-12 px-6 pt-32 pb-16 lg:flex-row lg:items-center"
     >
       <Reveal className="flex-1">
-        <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+        <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
           <span className="bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
             {profile.tagline || 'Turning Ideas'}
           </span>

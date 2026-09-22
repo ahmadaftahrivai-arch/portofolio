@@ -63,7 +63,7 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
 
       <div className="flex flex-col items-center gap-1 text-center">
         <p className="font-display text-2xl text-ink-100">Welcome To My</p>
-        <p className="font-display text-3xl font-semibold text-accent-400">
+        <p className="font-display text-3xl font-bold text-accent-400">
           {profile.name === 'TODO: Nama Lengkap Kamu' ? 'Portfolio Website' : `${profile.name}'s Portfolio`}
         </p>
       </div>

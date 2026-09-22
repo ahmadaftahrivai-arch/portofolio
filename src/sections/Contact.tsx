@@ -23,7 +23,7 @@ export function Contact() {
   return (
     <section id="contact" className="mx-auto max-w-5xl scroll-mt-28 px-6 py-24">
       <Reveal>
-        <h2 className="text-center font-display text-4xl font-semibold text-ink-100">Contact</h2>
+        <h2 className="text-center font-display text-4xl font-bold text-ink-100">Contact</h2>
         <p className="mt-3 text-center text-sm text-ink-500">
           Ada yang mau didiskusikan? Langsung kirim pesan aja ya..!
         </p>

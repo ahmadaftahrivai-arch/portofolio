@@ -34,7 +34,7 @@ export function StatCard({ icon: Icon, label, value, description, onClick }: Sta
         <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-accent-400">
           <Icon width={18} height={18} />
         </span>
-        <span className="font-display text-4xl font-semibold text-ink-100">{displayValue}</span>
+        <span className="font-display text-4xl font-bold text-ink-100">{displayValue}</span>
       </div>
 
       <div className="relative flex items-end justify-between">

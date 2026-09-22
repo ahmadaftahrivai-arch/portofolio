@@ -25,7 +25,7 @@ export function Portfolio() {
   return (
     <section id="portfolio" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
       <Reveal>
-        <h2 className="text-center font-display text-4xl font-semibold text-ink-100">
+        <h2 className="text-center font-display text-4xl font-bold text-ink-100">
           Portfolio
         </h2>
 

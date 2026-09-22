@@ -7,7 +7,7 @@ export const education: TimelineEntry[] = [
     id: 'edu-1',
     title: 'Universitas Muhammadiyah Cirebon',
     subtitle: 'Fakultas Teknik - Teknik Informatika',
-    period: 'TODO: tahun masuk - Sekarang', // TODO: isi tahun masuk kamu, mis. "2023 - Sekarang"
+    period: '2023 - Sekarang',
     logoUrl: umcLogo,
   },
 ]

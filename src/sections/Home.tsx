@@ -79,6 +79,13 @@ export function Home() {
 
       <Reveal delayMs={150} className="w-full max-w-sm shrink-0">
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-space-800/60 shadow-xl">
+          <div className="flex flex-col gap-1 p-5 pb-3">
+            <p className="text-sm font-semibold text-ink-100">Daily Rotation</p>
+            <p className="text-xs text-ink-500">
+              A curated collection of tracks that keep me in the zone and inspired while coding.
+            </p>
+          </div>
+
           {music.enabled && music.embedUrl ? (
             <iframe
               title="Currently listening to"
@@ -90,13 +97,8 @@ export function Home() {
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             />
           ) : (
-            <div className="flex flex-col gap-3 p-5">
-              <p className="text-sm font-semibold text-ink-100">Daily Rotation</p>
-              <p className="text-xs text-ink-500">
-                A curated collection of tracks that keep me in the zone and inspired while
-                coding.
-              </p>
-              <div className="mt-2 rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4 text-center">
+            <div className="px-5 pb-5">
+              <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4 text-center">
                 <p className="text-xs text-ink-500">
                   Belum terhubung ke Spotify. Isi{' '}
                   <code className="text-ink-300">embedUrl</code> asli di{' '}

@@ -69,7 +69,7 @@ export function Navbar() {
 
       <nav
         ref={navRef}
-        className="relative flex items-center gap-1 rounded-full border border-white/10 bg-space-900/70 p-1.5 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+        className="relative flex items-center gap-1 rounded-full border border-white/10 bg-space-900/25 p-1.5 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
       >
         {pillRect && (
           <span

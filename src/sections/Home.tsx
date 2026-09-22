@@ -79,9 +79,9 @@ export function Home() {
 
       <Reveal delayMs={150} className="w-full max-w-sm shrink-0">
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-space-800/60 shadow-xl">
-          <div className="flex flex-col gap-1 p-5 pb-3">
-            <p className="text-sm font-semibold text-ink-100">Daily Rotation</p>
-            <p className="text-xs text-ink-500">
+          <div className="flex flex-col gap-2 p-5 pb-4">
+            <p className="font-display text-2xl font-bold text-ink-100">Daily Rotation</p>
+            <p className="text-sm text-ink-500">
               A curated collection of tracks that keep me in the zone and inspired while coding.
             </p>
           </div>

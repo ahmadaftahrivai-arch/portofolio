@@ -32,14 +32,14 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       onMouseLeave={() => setHovered(false)}
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
-      className="relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-space-800"
+      className="relative aspect-[3/4] w-full max-w-sm overflow-hidden [mask-image:radial-gradient(ellipse_65%_75%_at_center,black_55%,transparent_92%)] [-webkit-mask-image:radial-gradient(ellipse_65%_75%_at_center,black_55%,transparent_92%)]"
       aria-label={altUrl ? 'Hover untuk lihat versi lain' : alt}
     >
       {primaryUrl && (
         <img
           src={primaryUrl}
           alt={alt}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+          className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ${
             hovered && altUrl ? 'opacity-0' : 'opacity-100'
           }`}
         />
@@ -48,7 +48,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
         <img
           src={altUrl}
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+          className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ${
             hovered ? 'opacity-100' : 'opacity-0'
           }`}
         />

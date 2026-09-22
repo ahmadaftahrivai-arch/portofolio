@@ -18,7 +18,7 @@ export function Home() {
       className="mx-auto flex min-h-screen max-w-6xl scroll-mt-8 flex-col justify-center gap-12 px-6 pt-32 pb-16 lg:flex-row lg:items-center"
     >
       <Reveal className="flex-1">
-        <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+        <h1 className="font-display text-5xl font-bold leading-[1.05] sm:text-6xl">
           <span className="bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
             {profile.tagline || 'Turning Ideas'}
           </span>
@@ -78,7 +78,7 @@ export function Home() {
       </Reveal>
 
       <Reveal delayMs={150} className="w-full max-w-sm shrink-0">
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-space-800/60 shadow-xl">
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-space-800/60 shadow-xl transition-all duration-300 hover:border-accent-400/60 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)]">
           <div className="flex flex-col gap-2 p-5 pb-4">
             <p className="font-display text-2xl font-bold text-ink-100">Daily Rotation</p>
             <p className="text-sm text-ink-500">

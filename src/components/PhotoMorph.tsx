@@ -32,7 +32,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       onMouseLeave={() => setHovered(false)}
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
-      className="relative aspect-[3/4] w-full max-w-sm overflow-hidden [-webkit-mask-image:radial-gradient(ellipse_65%_60%_at_50%_35%,black_15%,transparent_85%)] [mask-image:radial-gradient(ellipse_65%_60%_at_50%_35%,black_15%,transparent_85%)]"
+      className="relative aspect-[3/4] w-full max-w-sm overflow-hidden [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]"
       aria-label={altUrl ? 'Hover untuk lihat versi lain' : alt}
     >
       {primaryUrl && (

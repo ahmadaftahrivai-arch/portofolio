@@ -1,7 +1,7 @@
 import type { StatEntry, TimelineEntry } from './types'
 import umcLogo from '../assets/umc-logo.webp'
+import sman1SumberLogo from '../assets/sman1-sumber-logo.webp'
 
-// TODO(kamu): Ganti dengan riwayat pendidikan asli kamu, urut dari terbaru.
 export const education: TimelineEntry[] = [
   {
     id: 'edu-1',
@@ -9,6 +9,13 @@ export const education: TimelineEntry[] = [
     subtitle: 'Fakultas Teknik - Teknik Informatika',
     period: '2023 - Sekarang',
     logoUrl: umcLogo,
+  },
+  {
+    id: 'edu-2',
+    title: 'SMA Negeri 1 Sumber',
+    subtitle: 'IPS',
+    period: '2020 - 2023',
+    logoUrl: sman1SumberLogo,
   },
 ]
 

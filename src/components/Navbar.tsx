@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useActiveSection } from '../lib/useActiveSection'
+import { useSlidingIndicator } from '../lib/useSlidingIndicator'
 
 const links = [
   { id: 'home', label: 'Home' },
@@ -30,6 +31,7 @@ export function Navbar() {
   const headerRef = useRef<HTMLElement>(null)
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({})
   const [ghostX, setGhostX] = useState<number | null>(null)
+  const { containerRef: navRef, register, rect: pillRect } = useSlidingIndicator<HTMLElement>(active)
 
   // Keeps the little ghost mascot centered above whichever nav link is
   // currently active, instead of tracking the raw mouse position.
@@ -65,19 +67,28 @@ export function Navbar() {
         </div>
       )}
 
-      <nav className="flex items-center gap-1 rounded-full border border-white/10 bg-space-900/70 p-1.5 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
+      <nav
+        ref={navRef}
+        className="relative flex items-center gap-1 rounded-full border border-white/10 bg-space-900/70 p-1.5 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+      >
+        {pillRect && (
+          <span
+            className="absolute inset-y-1.5 rounded-full bg-accent-500 transition-all duration-300 ease-out"
+            style={{ left: pillRect.left, width: pillRect.width }}
+            aria-hidden="true"
+          />
+        )}
         {links.map((link) => (
           <a
             key={link.id}
             ref={(el) => {
               linkRefs.current[link.id] = el
+              register(link.id)(el)
             }}
             href={`#${link.id}`}
             onClick={(e) => handleClick(e, link.id)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-              active === link.id
-                ? 'bg-accent-500 text-space-950'
-                : 'text-ink-300 hover:text-ink-100'
+            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+              active === link.id ? 'text-space-950' : 'text-ink-300 hover:text-ink-100'
             }`}
           >
             {link.label}

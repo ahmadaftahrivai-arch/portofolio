@@ -59,14 +59,16 @@ export function About() {
         </div>
       </Reveal>
 
-      <Reveal className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>
           <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-ink-500">
             Education
           </h3>
           <div className="flex flex-col gap-3">
-            {education.map((entry) => (
-              <TimelineCard key={entry.id} entry={entry} />
+            {education.map((entry, i) => (
+              <Reveal key={entry.id} delayMs={i * 80}>
+                <TimelineCard entry={entry} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -75,36 +77,44 @@ export function About() {
             Experience & Organizations
           </h3>
           <div className="flex flex-col gap-3">
-            {experience.map((entry) => (
-              <TimelineCard key={entry.id} entry={entry} />
+            {experience.map((entry, i) => (
+              <Reveal key={entry.id} delayMs={i * 80}>
+                <TimelineCard entry={entry} />
+              </Reveal>
             ))}
           </div>
         </div>
-      </Reveal>
+      </div>
 
-      <Reveal className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard
-          icon={CodeIcon}
-          label="Projects"
-          value={projects.length}
-          description="Innovative solutions crafted"
-          onClick={() => goToPortfolio('projects')}
-        />
-        <StatCard
-          icon={RibbonIcon}
-          label="Certificates"
-          value={certificates.length}
-          description="Skills validated"
-          onClick={() => goToPortfolio('certificates')}
-        />
-        <StatCard
-          icon={TrophyIcon}
-          label="Awards"
-          value={awards.length}
-          description="Achievements earned"
-          onClick={() => goToPortfolio('awards')}
-        />
-      </Reveal>
+      <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <Reveal delayMs={0}>
+          <StatCard
+            icon={CodeIcon}
+            label="Projects"
+            value={projects.length}
+            description="Innovative solutions crafted"
+            onClick={() => goToPortfolio('projects')}
+          />
+        </Reveal>
+        <Reveal delayMs={100}>
+          <StatCard
+            icon={RibbonIcon}
+            label="Certificates"
+            value={certificates.length}
+            description="Skills validated"
+            onClick={() => goToPortfolio('certificates')}
+          />
+        </Reveal>
+        <Reveal delayMs={200}>
+          <StatCard
+            icon={TrophyIcon}
+            label="Awards"
+            value={awards.length}
+            description="Achievements earned"
+            onClick={() => goToPortfolio('awards')}
+          />
+        </Reveal>
+      </div>
     </section>
   )
 }

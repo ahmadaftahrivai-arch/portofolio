@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import { ArrowRightIcon, type IconProps } from './icons'
+import { useCountUp } from '../lib/useCountUp'
 
 interface StatCardProps {
   icon: ComponentType<IconProps>
@@ -10,8 +11,11 @@ interface StatCardProps {
 }
 
 export function StatCard({ icon: Icon, label, value, description, onClick }: StatCardProps) {
+  const { ref, value: displayValue } = useCountUp<HTMLButtonElement>(value)
+
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       className="group relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-white/10 bg-space-800 p-5 text-left transition-colors hover:border-accent-400/50"
@@ -30,7 +34,7 @@ export function StatCard({ icon: Icon, label, value, description, onClick }: Sta
         <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-accent-400">
           <Icon width={18} height={18} />
         </span>
-        <span className="font-display text-4xl font-semibold text-ink-100">{value}</span>
+        <span className="font-display text-4xl font-semibold text-ink-100">{displayValue}</span>
       </div>
 
       <div className="relative flex items-end justify-between">

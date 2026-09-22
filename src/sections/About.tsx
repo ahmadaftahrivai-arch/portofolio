@@ -20,43 +20,49 @@ export function About() {
 
   return (
     <section id="about" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
-      <Reveal className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_24rem_1fr]">
-        <div>
-          <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">
-            <span className="text-accent-400">Hi, I'm</span>
-            <br />
-            <span className="bg-gradient-to-b from-ink-100 to-ink-500 bg-clip-text text-transparent">
-              {profile.name}
-            </span>
-          </h2>
-          <div className="mt-6">
-            {profile.resumeUrl ? (
-              <Button href={profile.resumeUrl} target="_blank" rel="noreferrer">
-                <FileTextIcon width={18} height={18} /> View Resume
-              </Button>
-            ) : (
-              <Button variant="outline" disabled title="Tambahkan resumeUrl di data/profile.ts">
-                <FileTextIcon width={18} height={18} /> View Resume
-              </Button>
-            )}
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_24rem_1fr]">
+        <Reveal>
+          <div>
+            <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">
+              <span className="text-accent-400">Hi, I'm</span>
+              <br />
+              <span className="bg-gradient-to-b from-ink-100 to-ink-500 bg-clip-text text-transparent">
+                {profile.name}
+              </span>
+            </h2>
+            <div className="mt-6">
+              {profile.resumeUrl ? (
+                <Button href={profile.resumeUrl} target="_blank" rel="noreferrer">
+                  <FileTextIcon width={18} height={18} /> View Resume
+                </Button>
+              ) : (
+                <Button variant="outline" disabled title="Tambahkan resumeUrl di data/profile.ts">
+                  <FileTextIcon width={18} height={18} /> View Resume
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
+        </Reveal>
 
-        <PhotoMorph
-          primaryUrl={profile.photoUrl}
-          altUrl={profile.photoMorphUrl}
-          alt={profile.name}
-        />
+        <Reveal delayMs={180}>
+          <PhotoMorph
+            primaryUrl={profile.photoUrl}
+            altUrl={profile.photoMorphUrl}
+            alt={profile.name}
+          />
+        </Reveal>
 
-        <div>
-          <p className="text-base leading-relaxed text-ink-300">{profile.bioAbout}</p>
-          <div className="mt-6">
-            <Button variant="outline" onClick={() => goToPortfolio('projects')}>
-              View Projects
-            </Button>
+        <Reveal delayMs={360}>
+          <div>
+            <p className="text-base leading-relaxed text-ink-300">{profile.bioAbout}</p>
+            <div className="mt-6">
+              <Button variant="outline" onClick={() => goToPortfolio('projects')}>
+                View Projects
+              </Button>
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
 
       <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>

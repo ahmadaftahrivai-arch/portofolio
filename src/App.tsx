@@ -15,20 +15,25 @@ function App() {
   return (
     <PortfolioTabProvider>
       <Starfield />
-      {!introDone && <IntroLoader onDone={() => setIntroDone(true)} />}
 
-      <Navbar />
+      {!introDone ? (
+        <IntroLoader onDone={() => setIntroDone(true)} />
+      ) : (
+        <>
+          <Navbar />
 
-      <main>
-        <Home />
-        <About />
-        <Portfolio />
-        <Contact />
-      </main>
+          <main>
+            <Home />
+            <About />
+            <Portfolio />
+            <Contact />
+          </main>
 
-      <footer className="border-t border-white/10 px-6 py-8 text-center text-xs text-ink-500">
-        © {new Date().getFullYear()} {profile.name}. Built with React, Vite & Tailwind CSS.
-      </footer>
+          <footer className="border-t border-white/10 px-6 py-8 text-center text-xs text-ink-500">
+            © {new Date().getFullYear()} {profile.name}. Built with React, Vite & Tailwind CSS.
+          </footer>
+        </>
+      )}
     </PortfolioTabProvider>
   )
 }

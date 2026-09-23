@@ -14,8 +14,10 @@ function GhostMascot() {
   return (
     <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
       <circle cx="13" cy="13" r="12" fill="#f5f7fb" stroke="#60a5fa" strokeWidth="1" />
-      <circle cx="9.5" cy="12.5" r="1.4" fill="#04050b" />
-      <circle cx="16.5" cy="12.5" r="1.4" fill="#04050b" />
+      <g className="animate-ghost-blink [transform-box:fill-box] [transform-origin:center]">
+        <circle cx="9.5" cy="12.5" r="1.4" fill="#04050b" />
+        <circle cx="16.5" cy="12.5" r="1.4" fill="#04050b" />
+      </g>
       <path
         d="M10.5 17c1 1 4 1 5 0"
         stroke="#04050b"
@@ -32,6 +34,10 @@ export function Navbar() {
   const headerRef = useRef<HTMLElement>(null)
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({})
   const [ghostX, setGhostX] = useState<number | null>(null)
+  // -1 / 1 while the ghost is flying left / right to a new link, else 0.
+  const [ghostLean, setGhostLean] = useState(0)
+  const prevGhostX = useRef<number | null>(null)
+  const leanTimer = useRef(0)
   const { containerRef: navRef, register, rect: pillRect } = useSlidingIndicator<HTMLElement>(active)
   const [entered, setEntered] = useState(false)
 
@@ -45,18 +51,28 @@ export function Navbar() {
   // Keeps the little ghost mascot centered above whichever nav link is
   // currently active, instead of tracking the raw mouse position.
   useLayoutEffect(() => {
-    function measure() {
+    function measure(lean: boolean) {
       const header = headerRef.current
       const link = linkRefs.current[active]
       if (!header || !link) return
       const headerRect = header.getBoundingClientRect()
       const linkRect = link.getBoundingClientRect()
-      setGhostX(linkRect.left - headerRect.left + linkRect.width / 2)
+      const x = linkRect.left - headerRect.left + linkRect.width / 2
+      const prev = prevGhostX.current
+      prevGhostX.current = x
+      setGhostX(x)
+      // Lean into the flight toward the new link, then settle back upright.
+      if (lean && prev !== null && Math.abs(x - prev) > 1) {
+        setGhostLean(Math.sign(x - prev))
+        window.clearTimeout(leanTimer.current)
+        leanTimer.current = window.setTimeout(() => setGhostLean(0), 450)
+      }
     }
 
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    const onResize = () => measure(false)
+    measure(true)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [active])
 
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
@@ -72,7 +88,14 @@ export function Navbar() {
           style={{ left: ghostX, transform: 'translateX(-50%)' }}
           aria-hidden="true"
         >
-          <GhostMascot />
+          <div
+            className="transition-transform duration-300 ease-out"
+            style={{ transform: `rotate(${ghostLean * 14}deg) translateY(${ghostLean ? -3 : 0}px)` }}
+          >
+            <div className="animate-ghost-float motion-reduce:animate-none">
+              <GhostMascot />
+            </div>
+          </div>
         </div>
       )}
 

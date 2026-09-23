@@ -18,18 +18,14 @@ const REST = 3000
 const AURA = 1000
 const GROW = 1200
 const HOLD = 2200
-const SHRINK = 1800
+const SHRINK = 2000
 const CYCLE = REST + AURA + GROW + HOLD + SHRINK
 
 // Soft circle that shows a layer inside the lens / its inverse outside it.
-// --lc is the solid core as a fraction of the radius: wide and soft for the
-// hover lens, tighter while retracting so the edge reads as one clean sweep.
 const LENS_MASK =
-  'radial-gradient(circle var(--lr) at var(--lx) var(--ly), #000 var(--lc), transparent 100%)'
+  'radial-gradient(circle var(--lr) at var(--lx) var(--ly), #000 30%, rgba(0,0,0,0.6) 60%, transparent 100%)'
 const INVERSE_MASK =
-  'radial-gradient(circle var(--lr) at var(--lx) var(--ly), transparent var(--lc), #000 100%)'
-const SOFT_CORE = 0.3
-const RETRACT_CORE = 0.65
+  'radial-gradient(circle var(--lr) at var(--lx) var(--ly), transparent 30%, rgba(0,0,0,0.4) 60%, #000 100%)'
 
 function easeInOutSine(t: number) {
   return -(Math.cos(Math.PI * t) - 1) / 2
@@ -113,11 +109,10 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       const width = el.clientWidth
       const height = el.clientHeight
       const fullR = Math.hypot(width, height) * 2.6
-      // Smallest radius whose solid core still covers the farthest corner.
-      // Retracting from here keeps the whole shrink on screen instead of
-      // spending most of it outside the photo.
-      const coverR = Math.hypot(width * 0.5, height * 0.58) / RETRACT_CORE
-      let core = SOFT_CORE
+      // Smallest radius whose solid core (30%) still covers the farthest
+      // corner. Retracting from here keeps the whole shrink on screen
+      // instead of spending most of it outside the photo.
+      const coverR = Math.hypot(width * 0.5, height * 0.58) / 0.3
       const c = current.current
       let aura = 0
 
@@ -141,15 +136,13 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
         aura = phase.aura
         c.x += (width * 0.5 - c.x) * 0.08
         c.y += (height * 0.42 - c.y) * 0.08
-        const shrinking = 'shrinking' in phase
-        if (shrinking) core = RETRACT_CORE
-        c.r += (phase.reveal * (shrinking ? coverR : fullR) - c.r) * 0.25
+        const maxR = 'shrinking' in phase ? coverR : fullR
+        c.r += (phase.reveal * maxR - c.r) * 0.25
       }
 
       el.style.setProperty('--lx', `${c.x}px`)
       el.style.setProperty('--ly', `${c.y}px`)
       el.style.setProperty('--lr', `${Math.max(0, c.r)}px`)
-      el.style.setProperty('--lc', `${core * 100}%`)
 
       setMask(primaryRef.current, swapped.current ? LENS_MASK : INVERSE_MASK)
       setMask(altRef.current, swapped.current ? INVERSE_MASK : LENS_MASK)

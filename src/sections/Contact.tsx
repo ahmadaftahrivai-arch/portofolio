@@ -13,7 +13,7 @@ const CONTACT_EMAIL = profile.socials
 // form falls back to opening the visitor's email app via mailto:.
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
 
-type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
+type SendStatus = 'idle' | 'sending' | 'sent' | 'error' | 'mailto'
 
 export function Contact() {
   const [name, setName] = useState('')
@@ -28,6 +28,8 @@ export function Contact() {
       const subject = encodeURIComponent(`Pesan dari ${name || 'website portfolio'}`)
       const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`)
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`
+      // Without a mail app this does nothing visible, so always say so.
+      setStatus('mailto')
       return
     }
 
@@ -98,6 +100,15 @@ export function Contact() {
             {status === 'sent' && (
               <p role="status" className="text-sm text-emerald-400">
                 Pesan terkirim, makasih! Nanti aku balas lewat email.
+              </p>
+            )}
+            {status === 'mailto' && (
+              <p role="status" className="text-sm text-ink-300">
+                Aplikasi email kamu harusnya kebuka. Kalau nggak ada yang muncul, kirim langsung ke{' '}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-400 underline">
+                  {CONTACT_EMAIL}
+                </a>
+                .
               </p>
             )}
             {status === 'error' && (

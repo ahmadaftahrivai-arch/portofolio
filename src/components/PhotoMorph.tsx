@@ -33,13 +33,13 @@ function idlePhase(t: number) {
   c -= AURA
   if (c < GROW) {
     const p = easeInOut(c / GROW)
-    return { reveal: p, aura: 1 - p * 0.7 }
+    return { reveal: p, aura: 1 - p }
   }
   c -= GROW
-  if (c < HOLD) return { reveal: 1, aura: 0.3 }
+  if (c < HOLD) return { reveal: 1, aura: 0 }
   c -= HOLD
   const p = easeInOut(Math.min(1, c / SHRINK))
-  return { reveal: 1 - p, aura: 0.3 * (1 - p) }
+  return { reveal: 1 - p, aura: 0 }
 }
 
 /**
@@ -87,7 +87,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
         // Drift the reveal origin to the chest and spread out to full cover.
         c.x += (width * 0.5 - c.x) * 0.08
         c.y += (height * 0.42 - c.y) * 0.08
-        const idleR = phase.reveal * Math.hypot(width, height) * 1.1
+        const idleR = phase.reveal * Math.hypot(width, height) * 2.6
         c.r += (idleR - c.r) * 0.25
       }
 
@@ -133,6 +133,10 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
 
   const lensMask =
     'radial-gradient(circle var(--lr) at var(--lx) var(--ly), #000 30%, rgba(0,0,0,0.6) 60%, transparent 100%)'
+  // Inverse of the lens: hide the real photo wherever the suit is shown, so
+  // parts of the (wider) jacket don't peek out around the suit.
+  const inverseLensMask =
+    'radial-gradient(circle var(--lr) at var(--lx) var(--ly), transparent 30%, rgba(0,0,0,0.4) 60%, #000 100%)'
   const silhouetteMask = primaryUrl ? `url(${primaryUrl})` : undefined
 
   return (
@@ -151,6 +155,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
           ref={primaryRef}
           src={primaryUrl}
           alt={alt}
+          style={altUrl ? { maskImage: inverseLensMask, WebkitMaskImage: inverseLensMask } : undefined}
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
       ) : (

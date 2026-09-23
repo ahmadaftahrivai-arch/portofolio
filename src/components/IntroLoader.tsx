@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { LightningBolt } from './LightningBolt'
 import { IntroParticles } from './IntroParticles'
 import { profile } from '../data/profile'
 
@@ -7,7 +6,7 @@ interface IntroLoaderProps {
   onDone: () => void
 }
 
-const DURATION_MS = 1800
+const DURATION_MS = 3500
 
 export function IntroLoader({ onDone }: IntroLoaderProps) {
   const [progress, setProgress] = useState(0)
@@ -52,6 +51,19 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
       role="status"
       aria-live="polite"
     >
+      <video
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-screen"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src="/video/lightning.webm" type="video/webm" />
+        <source src="/video/lightning.mp4" type="video/mp4" />
+      </video>
+
       <IntroParticles />
 
       <button
@@ -62,20 +74,18 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
         Skip
       </button>
 
-      <LightningBolt className="relative h-64 w-auto opacity-90" />
-
       <div className="relative flex flex-col items-center gap-1 text-center">
-        <p className="font-display text-2xl text-ink-100">Welcome To My</p>
-        <p className="font-display text-3xl font-bold text-accent-400">
+        <p className="font-display text-4xl font-bold text-ink-100 sm:text-5xl">Welcome To My</p>
+        <p className="font-display text-4xl font-bold text-accent-500 sm:text-5xl">
           {profile.name === 'TODO: Nama Lengkap Kamu' ? 'Portfolio Website' : `${profile.name}'s Portfolio`}
         </p>
       </div>
 
-      <div className="relative flex w-56 items-center gap-3 text-xs text-ink-500">
+      <div className="relative flex w-72 items-center gap-3 text-xs font-medium tracking-wider text-ink-300">
         <span>Loading</span>
-        <span className="h-px flex-1 bg-white/10">
+        <span className="h-0.5 flex-1 rounded-full bg-white/10">
           <span
-            className="block h-px bg-accent-400 transition-[width] duration-100"
+            className="block h-0.5 rounded-full bg-white transition-[width] duration-100"
             style={{ width: `${progress}%` }}
           />
         </span>

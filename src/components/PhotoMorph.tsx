@@ -204,8 +204,12 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       onPointerEnter={altUrl ? handleEnter : undefined}
       onPointerMove={altUrl ? (e) => (target.current = pointerPos(e)) : undefined}
       onPointerLeave={altUrl ? handleLeave : undefined}
+      // Keep the raw photo from being dragged out to a new tab or saved via
+      // right-click / long-press; it's part of the effect, not a download.
+      onDragStart={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
       style={{ ['--lr' as string]: '0px' }}
-      className={`relative aspect-[3/4] w-full max-w-sm overflow-hidden [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)] ${
+      className={`relative aspect-[3/4] w-full max-w-sm select-none overflow-hidden [-webkit-touch-callout:none] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)] ${
         altUrl ? 'cursor-crosshair' : ''
       }`}
     >
@@ -214,6 +218,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
           ref={primaryRef}
           src={primaryUrl}
           alt={alt}
+          draggable={false}
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
       ) : (
@@ -241,6 +246,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
           src={altUrl}
           alt=""
           aria-hidden="true"
+          draggable={false}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top"
         />
       )}

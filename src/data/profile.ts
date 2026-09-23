@@ -16,9 +16,10 @@ export const profile: Profile = {
   photoUrl: profilePhoto,
   photoMorphUrl: null, // TODO: gambar kedua untuk efek morph (opsional), src/assets/profile-alt.jpg
   socials: [
-    // TODO: isi URL & handle asli kamu, hapus baris yang tidak dipakai
+    // TODO: isi URL & handle GitHub/LinkedIn asli kamu, hapus baris yang tidak dipakai
     { label: 'GitHub', url: 'https://github.com/TODO', icon: 'github', handle: '@TODO' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/TODO', icon: 'linkedin' },
-    { label: 'Instagram', url: 'https://instagram.com/TODO', icon: 'instagram', handle: '@TODO' },
+    { label: 'Instagram', url: 'https://www.instagram.com/ahmdafth/', icon: 'instagram', handle: '@ahmdafth' },
+    { label: 'Email', url: 'mailto:ahmadaftahrivai@gmail.com', icon: 'email', handle: 'ahmadaftahrivai@gmail.com' },
   ],
 }

@@ -17,8 +17,8 @@ export const profile: Profile = {
   photoUrl: profilePhoto,
   photoMorphUrl: profileSpiderman,
   socials: [
-    // TODO: isi URL & handle GitHub/LinkedIn asli kamu, hapus baris yang tidak dipakai
-    { label: 'GitHub', url: 'https://github.com/TODO', icon: 'github', handle: '@TODO' },
+    // TODO: isi URL LinkedIn asli kamu (atau hapus barisnya kalau tidak dipakai)
+    { label: 'GitHub', url: 'https://github.com/ahmadaftahrivai-arch', icon: 'github', handle: '@ahmadaftahrivai-arch' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/TODO', icon: 'linkedin' },
     { label: 'Instagram', url: 'https://www.instagram.com/ahmdafth/', icon: 'instagram', handle: '@ahmdafth' },
     { label: 'Email', url: 'mailto:ahmadaftahrivai@gmail.com', icon: 'email', handle: 'ahmadaftahrivai@gmail.com' },

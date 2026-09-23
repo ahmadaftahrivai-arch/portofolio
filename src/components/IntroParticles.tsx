@@ -38,12 +38,12 @@ export function IntroParticles() {
 
     function spawn(): Particle {
       return {
-        x: width / 2 + gaussian() * width * 0.2,
+        x: width / 2 + gaussian() * width * 0.16,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.35,
         vy: (Math.random() - 0.5) * 0.35 - 0.12,
-        r: Math.random() * 0.9 + 0.35,
-        alpha: Math.random() * 0.6 + 0.3,
+        r: Math.random() < 0.12 ? Math.random() * 0.6 + 1.2 : Math.random() * 0.7 + 0.5,
+        alpha: Math.random() * 0.5 + 0.5,
         twinkle: Math.random() * 0.004 + 0.002,
         phase: Math.random() * Math.PI * 2,
         blue: Math.random() < 0.35,
@@ -60,7 +60,7 @@ export function IntroParticles() {
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      particles = Array.from({ length: Math.round((width * height) / 1400) }, spawn)
+      particles = Array.from({ length: Math.round((width * height) / 600) }, spawn)
     }
 
     function tick(t: number) {

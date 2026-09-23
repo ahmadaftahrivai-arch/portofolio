@@ -64,7 +64,9 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
         <source src="/video/lightning.mp4" type="video/mp4" />
       </video>
 
-      <IntroParticles />
+      <div className="absolute inset-0 z-[1]">
+        <IntroParticles />
+      </div>
 
       <button
         type="button"
@@ -74,14 +76,14 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
         Skip
       </button>
 
-      <div className="relative flex flex-col items-center gap-1 text-center">
+      <div className="relative z-[2] flex flex-col items-center gap-1 text-center">
         <p className="font-display text-4xl font-bold text-ink-100 sm:text-5xl">Welcome To My</p>
         <p className="font-display text-4xl font-bold text-accent-500 sm:text-5xl">
           {profile.name === 'TODO: Nama Lengkap Kamu' ? 'Portfolio Website' : `${profile.name}'s Portfolio`}
         </p>
       </div>
 
-      <div className="relative flex w-72 items-center gap-3 text-xs font-medium tracking-wider text-ink-300">
+      <div className="relative z-[2] flex w-72 items-center gap-3 text-xs font-medium tracking-wider text-ink-300">
         <span>Loading</span>
         <span className="h-0.5 flex-1 rounded-full bg-white/10">
           <span

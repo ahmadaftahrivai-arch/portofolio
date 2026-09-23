@@ -11,29 +11,42 @@ interface PhotoMorphProps {
 const LENS_RATIO = 0.3
 const FOLLOW = 0.12
 
-// Idle "spider-sense" pulse (ms): rest -> red tint rises -> hold -> fades.
-const REST = 4000
-const RISE = 900
-const HOLD = 1300
-const FALL = 900
-const CYCLE = REST + RISE + HOLD + FALL
+// Idle auto-swap cycle (ms): rest on real photo -> red "spider-sense" aura
+// builds -> suit spreads out from the chest -> hold -> suit retracts.
+const REST = 3000
+const AURA = 1000
+const GROW = 1200
+const HOLD = 2200
+const SHRINK = 1200
+const CYCLE = REST + AURA + GROW + HOLD + SHRINK
 
 function easeInOut(t: number) {
-  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
-function pulseAt(t: number) {
-  const c = t % CYCLE
-  if (c < REST) return 0
-  if (c < REST + RISE) return easeInOut((c - REST) / RISE)
-  if (c < REST + RISE + HOLD) return 1
-  return 1 - easeInOut((c - REST - RISE - HOLD) / FALL)
+/** reveal: 0..1 how much of the suit is shown; aura: 0..1 red glow strength. */
+function idlePhase(t: number) {
+  let c = t % CYCLE
+  if (c < REST) return { reveal: 0, aura: 0 }
+  c -= REST
+  if (c < AURA) return { reveal: 0, aura: easeInOut(c / AURA) }
+  c -= AURA
+  if (c < GROW) {
+    const p = easeInOut(c / GROW)
+    return { reveal: p, aura: 1 - p * 0.7 }
+  }
+  c -= GROW
+  if (c < HOLD) return { reveal: 1, aura: 0.3 }
+  c -= HOLD
+  const p = easeInOut(Math.min(1, c / SHRINK))
+  return { reveal: 1 - p, aura: 0.3 * (1 - p) }
 }
 
 /**
  * Real photo; hovering opens a soft lens that glides after the pointer and
- * reveals the aligned alt image (Spider-Man suit) beneath. While idle, the
- * silhouette periodically picks up a faint red tint and edge glow.
+ * reveals the aligned alt image (Spider-Man suit) beneath. While idle it
+ * auto-swaps: a red aura builds, then the suit spreads over the photo and
+ * retracts again.
  */
 export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -57,25 +70,35 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       const width = el.clientWidth
       const c = current.current
 
+      const height = el.clientHeight
+      let aura = 0
+
       if (hovering.current) {
         c.x += (target.current.x - c.x) * FOLLOW
         c.y += (target.current.y - c.y) * FOLLOW
         c.r += (width * LENS_RATIO - c.r) * 0.1
         idleSince = now
-      } else {
-        // Lens stays where it was and shrinks away instead of snapping off.
+      } else if (reduceMotion || now - idleSince < 600) {
+        // Just left: let the lens shrink away in place before auto-swap resumes.
         c.r += (0 - c.r) * 0.08
+      } else {
+        const phase = idlePhase(now - idleSince - 600)
+        aura = phase.aura
+        // Drift the reveal origin to the chest and spread out to full cover.
+        c.x += (width * 0.5 - c.x) * 0.08
+        c.y += (height * 0.42 - c.y) * 0.08
+        const idleR = phase.reveal * Math.hypot(width, height) * 1.1
+        c.r += (idleR - c.r) * 0.25
       }
 
       el.style.setProperty('--lx', `${c.x}px`)
       el.style.setProperty('--ly', `${c.y}px`)
       el.style.setProperty('--lr', `${Math.max(0, c.r)}px`)
 
-      const pulse = hovering.current || reduceMotion ? 0 : pulseAt(now - idleSince)
-      if (tintRef.current) tintRef.current.style.opacity = String(pulse * 0.28)
+      if (tintRef.current) tintRef.current.style.opacity = String(aura * 0.25)
       if (primaryRef.current) {
-        primaryRef.current.style.filter = pulse
-          ? `drop-shadow(0 0 ${3 + pulse * 7}px rgba(220, 38, 38, ${pulse * 0.55}))`
+        primaryRef.current.style.filter = aura
+          ? `drop-shadow(0 0 ${3 + aura * 9}px rgba(220, 38, 38, ${aura * 0.6}))`
           : 'none'
       }
       raf = requestAnimationFrame(tick)

@@ -85,6 +85,18 @@ Catatan: policy di atas mengizinkan siapa saja menulis komentar (guestbook publi
 sama seperti referensinya) — tidak ada login. Kalau nanti spam jadi masalah, opsi
 paling gampang adalah menambah rate-limit atau captcha di depan form ini.
 
+## Form "Kirim Pesan" (Contact)
+
+Form dikirim lewat [Web3Forms](https://web3forms.com) dan pesannya masuk ke email kamu.
+
+1. Buka https://web3forms.com, masukkan email kamu, lalu ambil **Access Key** yang dikirim ke email.
+2. Di Vercel → Project → Settings → Environment Variables, tambahkan
+   `VITE_WEB3FORMS_KEY` = access key tadi, lalu redeploy.
+3. Untuk lokal, isi juga di `.env.local`.
+
+Access key ini memang dirancang untuk dipakai di browser (bukan rahasia). Kalau belum
+diisi, tombol "Kirim Pesan" jatuh balik ke `mailto:` (membuka aplikasi email pengunjung).
+
 ## Gambar
 
 Taruh aset di `src/assets/` (untuk yang di-import lewat kode, kena hash saat build) atau

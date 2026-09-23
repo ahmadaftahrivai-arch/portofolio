@@ -9,17 +9,51 @@ const CONTACT_EMAIL = profile.socials
   .find((s) => s.icon === 'email')
   ?.url.replace(/^mailto:/, '')
 
+// Public Web3Forms access key (safe to ship to the browser). Without it the
+// form falls back to opening the visitor's email app via mailto:.
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
+
+type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
+
 export function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<SendStatus>('idle')
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    const to = CONTACT_EMAIL ?? 'TODO@example.com'
-    const subject = encodeURIComponent(`Pesan dari ${name || 'website portfolio'}`)
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`)
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`
+    if (!WEB3FORMS_KEY) {
+      const to = CONTACT_EMAIL ?? 'TODO@example.com'
+      const subject = encodeURIComponent(`Pesan dari ${name || 'website portfolio'}`)
+      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`)
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`
+      return
+    }
+
+    setStatus('sending')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Pesan dari ${name} lewat website portfolio`,
+          from_name: name,
+          name,
+          email,
+          message,
+        }),
+      })
+      const data: { success?: boolean } = await res.json()
+      if (!res.ok || !data.success) throw new Error('send failed')
+      setStatus('sent')
+      setName('')
+      setEmail('')
+      setMessage('')
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -58,19 +92,23 @@ export function Contact() {
               onChange={(e) => setMessage(e.target.value)}
               className="resize-none rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-ink-100 placeholder:text-ink-500 focus:border-accent-400 focus:outline-none"
             />
-            <Button type="submit" className="self-start">
-              Kirim Pesan
+            <Button type="submit" className="self-start disabled:opacity-60" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Mengirim...' : 'Kirim Pesan'}
             </Button>
-            {!CONTACT_EMAIL || CONTACT_EMAIL.includes('TODO') ? (
-              <p className="text-xs text-ink-500">
-                Catatan: tombol ini membuka aplikasi email lewat link{' '}
-                <code className="text-ink-300">mailto:</code>. Isi email asli kamu di{' '}
-                <code className="text-ink-300">data/profile.ts</code> (tambahkan entri social
-                dengan <code className="text-ink-300">icon: 'email'</code>). Kalau mau form ini
-                benar-benar mengirim tanpa membuka email client, sambungkan ke layanan seperti
-                Formspree atau Resend — bagian itu sengaja belum dipasang otomatis.
+            {status === 'sent' && (
+              <p role="status" className="text-sm text-emerald-400">
+                Pesan terkirim, makasih! Nanti aku balas lewat email.
               </p>
-            ) : null}
+            )}
+            {status === 'error' && (
+              <p role="alert" className="text-sm text-red-400">
+                Pesan gagal terkirim. Coba lagi, atau email langsung ke{' '}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="underline">
+                  {CONTACT_EMAIL}
+                </a>
+                .
+              </p>
+            )}
           </form>
 
           <div className="mt-12">

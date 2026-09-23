@@ -18,6 +18,13 @@ const tabs: { id: PortfolioTab; label: string }[] = [
 
 const STAGGER_MS = 70
 
+/** Brand hex as CSS color, lifting near-black logos (Vercel, GitHub) to white on the dark cards. */
+function brandColor(hex: string) {
+  const n = parseInt(hex, 16)
+  const luminance = 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)
+  return luminance < 60 ? '#f5f7fb' : `#${hex}`
+}
+
 export function Portfolio() {
   const { tab, setTab } = usePortfolioTab()
   const { containerRef: tabsRef, register, rect: pillRect } = useSlidingIndicator<HTMLDivElement>(tab)
@@ -31,7 +38,7 @@ export function Portfolio() {
 
         <div
           ref={tabsRef}
-          className="relative mx-auto mt-10 flex max-w-2xl flex-wrap justify-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1.5"
+          className="relative mx-auto mt-10 flex max-w-2xl justify-center gap-0.5 rounded-full sm:gap-1 border border-white/10 bg-white/[0.03] p-1.5"
         >
           {pillRect && (
             <span
@@ -46,7 +53,7 @@ export function Portfolio() {
               ref={register(t.id)}
               type="button"
               onClick={() => setTab(t.id)}
-              className={`relative flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`relative flex-auto whitespace-nowrap rounded-full px-1.5 py-2 text-[11px] font-medium transition-colors min-[375px]:px-2 min-[375px]:text-xs sm:flex-1 sm:px-4 sm:text-sm ${
                 tab === t.id ? 'text-space-950' : 'text-ink-300 hover:text-ink-100'
               }`}
             >
@@ -112,17 +119,34 @@ export function Portfolio() {
         )}
 
         {tab === 'techStack' && (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {techStack.map((item, i) => (
-              <Reveal key={item.name} delayMs={i * STAGGER_MS}>
-                <div className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-accent-400/40">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-500/10 text-sm font-semibold text-accent-400">
-                    {item.name.slice(0, 2)}
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6">
+            {techStack.map((item, i) => {
+              const color = item.icon ? brandColor(item.icon.hex) : undefined
+              return (
+                <Reveal key={item.name} delayMs={i * STAGGER_MS}>
+                  <div
+                    className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-accent-700/10 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-accent-700/20"
+                    style={{ ['--brand' as string]: color }}
+                  >
+                    {item.icon ? (
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-11 w-11 transition-[filter,transform] duration-300 group-hover:scale-110 group-hover:[filter:drop-shadow(0_0_12px_var(--brand))] sm:h-14 sm:w-14"
+                        fill={color}
+                        aria-hidden="true"
+                      >
+                        <path d={item.icon.path} />
+                      </svg>
+                    ) : (
+                      <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-accent-500/10 text-sm font-semibold text-accent-400 sm:h-14 sm:w-14">
+                        {item.name.slice(0, 2)}
+                      </div>
+                    )}
+                    <p className="text-xs font-semibold text-ink-100 sm:text-sm">{item.name}</p>
                   </div>
-                  <p className="text-sm text-ink-100">{item.name}</p>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              )
+            })}
           </div>
         )}
       </div>

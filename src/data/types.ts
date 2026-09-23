@@ -65,4 +65,6 @@ export interface Award {
 export interface TechStackItem {
   name: string
   category: 'language' | 'framework' | 'tool' | 'design'
+  /** A simple-icons entry (single SVG path + brand hex color). */
+  icon?: { path: string; hex: string }
 }

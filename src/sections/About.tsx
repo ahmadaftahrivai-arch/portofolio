@@ -91,7 +91,7 @@ export function About() {
         </div>
       </div>
 
-      <div className="mt-16 max-w-xs">
+      <div className="mt-16 max-w-sm">
         <Reveal>
           <StatCard
             icon={CodeIcon}

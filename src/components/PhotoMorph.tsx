@@ -7,44 +7,38 @@ interface PhotoMorphProps {
   alt: string
 }
 
-const LENS_RADIUS = 110
+// Lens radius as a fraction of the photo width — roughly head-sized.
+const LENS_RATIO = 0.3
+const FOLLOW = 0.12
 
-// Idle auto-swap cycle (ms): rest on real photo -> reveal alt -> hold -> hide.
-const REST = 3500
-const GROW = 900
-const HOLD = 2200
-const SHRINK = 900
-const CYCLE = REST + GROW + HOLD + SHRINK
+// Idle "spider-sense" pulse (ms): rest -> red tint rises -> hold -> fades.
+const REST = 4000
+const RISE = 900
+const HOLD = 1300
+const FALL = 900
+const CYCLE = REST + RISE + HOLD + FALL
 
 function easeInOut(t: number) {
   return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
 }
 
-/** Returns reveal amount 0..1 and a red "aura" strength 0..1 for time t in the cycle. */
-function idlePhase(t: number) {
+function pulseAt(t: number) {
   const c = t % CYCLE
-  if (c < REST) {
-    // Red aura builds up during the last second before the swap.
-    const aura = Math.max(0, (c - (REST - 1000)) / 1000)
-    return { reveal: 0, aura }
-  }
-  if (c < REST + GROW) {
-    const p = easeInOut((c - REST) / GROW)
-    return { reveal: p, aura: 1 - p * 0.6 }
-  }
-  if (c < REST + GROW + HOLD) return { reveal: 1, aura: 0.4 }
-  const p = easeInOut((c - REST - GROW - HOLD) / SHRINK)
-  return { reveal: 1 - p, aura: 0.4 * (1 - p) }
+  if (c < REST) return 0
+  if (c < REST + RISE) return easeInOut((c - REST) / RISE)
+  if (c < REST + RISE + HOLD) return 1
+  return 1 - easeInOut((c - REST - RISE - HOLD) / FALL)
 }
 
 /**
- * Real photo with the aligned alt image (Spider-Man suit) revealed through a
- * soft radial mask. Idle: auto-swaps on a loop with a red aura build-up.
- * Hover: the mask becomes a lens that follows the pointer.
+ * Real photo; hovering opens a soft lens that glides after the pointer and
+ * reveals the aligned alt image (Spider-Man suit) beneath. While idle, the
+ * silhouette periodically picks up a faint red tint and edge glow.
  */
 export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const primaryRef = useRef<HTMLImageElement>(null)
+  const tintRef = useRef<HTMLDivElement>(null)
   const hovering = useRef(false)
   const target = useRef({ x: 0, y: 0 })
   const current = useRef({ x: 0, y: 0, r: 0 })
@@ -56,39 +50,32 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
     const el = containerRef.current
     if (!altUrl || !el) return
     let raf = 0
-    const start = performance.now()
+    let idleSince = performance.now()
 
     function tick(now: number) {
       if (!el) return
-      const { width, height } = el.getBoundingClientRect()
+      const width = el.clientWidth
       const c = current.current
-      let tx: number
-      let ty: number
-      let tr: number
-      let aura = 0
 
       if (hovering.current) {
-        tx = target.current.x
-        ty = target.current.y
-        tr = LENS_RADIUS
+        c.x += (target.current.x - c.x) * FOLLOW
+        c.y += (target.current.y - c.y) * FOLLOW
+        c.r += (width * LENS_RATIO - c.r) * 0.1
+        idleSince = now
       } else {
-        tx = width / 2
-        ty = height * 0.35
-        const phase = reduceMotion ? { reveal: 0, aura: 0 } : idlePhase(now - start)
-        tr = phase.reveal * Math.hypot(width, height)
-        aura = phase.aura
+        // Lens stays where it was and shrinks away instead of snapping off.
+        c.r += (0 - c.r) * 0.08
       }
-
-      c.x += (tx - c.x) * 0.22
-      c.y += (ty - c.y) * 0.22
-      c.r += (tr - c.r) * (hovering.current ? 0.25 : 1)
 
       el.style.setProperty('--lx', `${c.x}px`)
       el.style.setProperty('--ly', `${c.y}px`)
       el.style.setProperty('--lr', `${Math.max(0, c.r)}px`)
+
+      const pulse = hovering.current || reduceMotion ? 0 : pulseAt(now - idleSince)
+      if (tintRef.current) tintRef.current.style.opacity = String(pulse * 0.28)
       if (primaryRef.current) {
-        primaryRef.current.style.filter = aura
-          ? `drop-shadow(0 0 ${6 + aura * 18}px rgba(220, 38, 38, ${0.25 + aura * 0.55}))`
+        primaryRef.current.style.filter = pulse
+          ? `drop-shadow(0 0 ${3 + pulse * 7}px rgba(220, 38, 38, ${pulse * 0.55}))`
           : 'none'
       }
       raf = requestAnimationFrame(tick)
@@ -104,8 +91,11 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
   }
 
   function handleEnter(e: PointerEvent<HTMLDivElement>) {
+    const p = pointerPos(e)
+    // Start the lens under the pointer rather than sweeping in from 0,0.
+    if (current.current.r < 1) current.current = { ...p, r: 0 }
+    target.current = p
     hovering.current = true
-    target.current = pointerPos(e)
   }
 
   if (!primaryUrl && !altUrl) {
@@ -119,7 +109,8 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
   }
 
   const lensMask =
-    'radial-gradient(circle var(--lr) at var(--lx) var(--ly), #000 40%, transparent 100%)'
+    'radial-gradient(circle var(--lr) at var(--lx) var(--ly), #000 30%, rgba(0,0,0,0.6) 60%, transparent 100%)'
+  const silhouetteMask = primaryUrl ? `url(${primaryUrl})` : undefined
 
   return (
     <div
@@ -141,6 +132,22 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
         />
       ) : (
         <Placeholder className="absolute inset-0" label="photoUrl belum diisi" />
+      )}
+      {altUrl && silhouetteMask && (
+        // Red wash clipped to the person's silhouette for the idle pulse.
+        <div
+          ref={tintRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-red-500 opacity-0 mix-blend-color"
+          style={{
+            maskImage: silhouetteMask,
+            WebkitMaskImage: silhouetteMask,
+            maskSize: 'cover',
+            WebkitMaskSize: 'cover',
+            maskPosition: 'top',
+            WebkitMaskPosition: 'top',
+          }}
+        />
       )}
       {altUrl && (
         <img

@@ -13,13 +13,13 @@ const FOLLOW = 0.12
 const LEAVE_MS = 600
 
 // Idle auto-swap cycle (ms): rest on real photo -> red "spider-sense" aura
-// builds -> suit spreads out from the chest -> hold -> suit retracts.
+// builds -> suit spreads out from the chest -> hold -> suit fades out.
 const REST = 3000
 const AURA = 1000
 const GROW = 1200
 const HOLD = 2200
-const SHRINK = 1200
-const CYCLE = REST + AURA + GROW + HOLD + SHRINK
+const FADE = 1000
+const CYCLE = REST + AURA + GROW + HOLD + FADE
 
 // Soft circle that shows a layer inside the lens / its inverse outside it.
 const LENS_MASK =
@@ -31,21 +31,24 @@ function easeInOut(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
-/** reveal: 0..1 how much of the suit is shown; aura: 0..1 red glow strength. */
+/**
+ * reveal: 0..1 how much of the suit is spread out; aura: 0..1 red glow
+ * strength; fade: 0..1 how far the suit has cross-faded back to the photo.
+ */
 function idlePhase(t: number) {
   let c = t % CYCLE
-  if (c < REST) return { reveal: 0, aura: 0 }
+  if (c < REST) return { reveal: 0, aura: 0, fade: 0 }
   c -= REST
-  if (c < AURA) return { reveal: 0, aura: easeInOut(c / AURA) }
+  if (c < AURA) return { reveal: 0, aura: easeInOut(c / AURA), fade: 0 }
   c -= AURA
   if (c < GROW) {
     const p = easeInOut(c / GROW)
-    return { reveal: p, aura: 1 - p }
+    return { reveal: p, aura: 1 - p, fade: 0 }
   }
   c -= GROW
-  if (c < HOLD) return { reveal: 1, aura: 0 }
+  if (c < HOLD) return { reveal: 1, aura: 0, fade: 0 }
   c -= HOLD
-  return { reveal: 1 - easeInOut(Math.min(1, c / SHRINK)), aura: 0 }
+  return { reveal: 1, aura: 0, fade: easeInOut(Math.min(1, c / FADE)) }
 }
 
 function setMask(el: HTMLElement | null, mask: string) {
@@ -57,7 +60,7 @@ function setMask(el: HTMLElement | null, mask: string) {
 
 /**
  * Real photo that auto-swaps with the aligned alt image (Spider-Man suit):
- * a red aura builds, the suit spreads out from the chest, holds, retracts.
+ * a red aura builds, the suit spreads out from the chest, holds, fades out.
  * The first swap starts as soon as the photo scrolls into view. Hovering
  * opens a soft lens that reveals whichever image is *not* currently showing.
  */
@@ -73,6 +76,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
   // True while the suit is the base image and the lens shows the real photo.
   const swapped = useRef(false)
   const reveal = useRef(0)
+  const fading = useRef(false)
   const [reduceMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
@@ -107,6 +111,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       const fullR = Math.hypot(width, height) * 2.6
       const c = current.current
       let aura = 0
+      let fade = 0
 
       if (hovering.current) {
         c.x += (target.current.x - c.x) * FOLLOW
@@ -123,20 +128,26 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
           c.r = fullR
         }
         if (visible && !reduceMotion) idleClock += dt
-        const phase = reduceMotion ? { reveal: 0, aura: 0 } : idlePhase(idleClock)
-        reveal.current = phase.reveal
+        const phase = reduceMotion ? { reveal: 0, aura: 0, fade: 0 } : idlePhase(idleClock)
+        // Mostly faded counts as the real photo showing (for hover roles).
+        reveal.current = phase.fade > 0.5 ? 0 : phase.reveal
         aura = phase.aura
+        fade = phase.fade
         c.x += (width * 0.5 - c.x) * 0.08
         c.y += (height * 0.42 - c.y) * 0.08
-        c.r += (phase.reveal * fullR - c.r) * 0.25
+        // Snap closed once faded out so the suit doesn't reappear shrinking.
+        c.r = phase.reveal === 0 ? 0 : c.r + (phase.reveal * fullR - c.r) * 0.25
       }
+      fading.current = fade > 0
 
       el.style.setProperty('--lx', `${c.x}px`)
       el.style.setProperty('--ly', `${c.y}px`)
       el.style.setProperty('--lr', `${Math.max(0, c.r)}px`)
 
-      setMask(primaryRef.current, swapped.current ? LENS_MASK : INVERSE_MASK)
+      // While fading, the real photo sits fully underneath the suit.
+      setMask(primaryRef.current, fade ? 'none' : swapped.current ? LENS_MASK : INVERSE_MASK)
       setMask(altRef.current, swapped.current ? INVERSE_MASK : LENS_MASK)
+      if (altRef.current) altRef.current.style.opacity = String(1 - fade)
 
       if (tintRef.current) tintRef.current.style.opacity = String(aura * 0.25)
       if (primaryRef.current) {
@@ -166,7 +177,7 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       // Suit is showing: flip roles so the lens reveals the real photo.
       swapped.current = true
       current.current = { ...p, r: 0 }
-    } else if (current.current.r < 1) {
+    } else if (current.current.r < 1 || fading.current) {
       current.current = { ...p, r: 0 }
     }
     hovering.current = true

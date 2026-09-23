@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { LightningBolt } from './LightningBolt'
+import { IntroParticles } from './IntroParticles'
 import { profile } from '../data/profile'
 
 interface IntroLoaderProps {
@@ -51,24 +52,26 @@ export function IntroLoader({ onDone }: IntroLoaderProps) {
       role="status"
       aria-live="polite"
     >
+      <IntroParticles />
+
       <button
         type="button"
         onClick={skip}
-        className="absolute right-6 top-6 text-xs text-ink-500 underline-offset-4 hover:text-ink-300 hover:underline"
+        className="absolute right-6 top-6 z-10 text-xs text-ink-500 underline-offset-4 hover:text-ink-300 hover:underline"
       >
         Skip
       </button>
 
-      <LightningBolt className="h-64 w-auto opacity-90" />
+      <LightningBolt className="relative h-64 w-auto opacity-90" />
 
-      <div className="flex flex-col items-center gap-1 text-center">
+      <div className="relative flex flex-col items-center gap-1 text-center">
         <p className="font-display text-2xl text-ink-100">Welcome To My</p>
         <p className="font-display text-3xl font-bold text-accent-400">
           {profile.name === 'TODO: Nama Lengkap Kamu' ? 'Portfolio Website' : `${profile.name}'s Portfolio`}
         </p>
       </div>
 
-      <div className="flex w-56 items-center gap-3 text-xs text-ink-500">
+      <div className="relative flex w-56 items-center gap-3 text-xs text-ink-500">
         <span>Loading</span>
         <span className="h-px flex-1 bg-white/10">
           <span

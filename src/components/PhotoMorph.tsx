@@ -13,12 +13,15 @@ const FOLLOW = 0.12
 const LEAVE_MS = 600
 
 // Idle auto-swap cycle (ms): rest on real photo -> red "spider-sense" aura
-// builds -> suit spreads out from the chest -> hold -> suit fades out.
+// builds -> suit spreads out from the chest -> hold -> suit blurs and fades
+// out while the real photo blurs back in.
 const REST = 3000
 const AURA = 1000
 const GROW = 1200
 const HOLD = 2200
 const FADE = 1000
+// Max blur (px) on whichever image is fading out / in.
+const FADE_BLUR = 14
 const CYCLE = REST + AURA + GROW + HOLD + FADE
 
 // Soft circle that shows a layer inside the lens / its inverse outside it.
@@ -147,13 +150,20 @@ export function PhotoMorph({ primaryUrl, altUrl, alt }: PhotoMorphProps) {
       // While fading, the real photo sits fully underneath the suit.
       setMask(primaryRef.current, fade ? 'none' : swapped.current ? LENS_MASK : INVERSE_MASK)
       setMask(altRef.current, swapped.current ? INVERSE_MASK : LENS_MASK)
-      if (altRef.current) altRef.current.style.opacity = String(1 - fade)
+      if (altRef.current) {
+        altRef.current.style.opacity = String(1 - fade)
+        altRef.current.style.filter = fade ? `blur(${fade * FADE_BLUR}px)` : 'none'
+      }
 
       if (tintRef.current) tintRef.current.style.opacity = String(aura * 0.25)
       if (primaryRef.current) {
+        // While fading, the real photo comes back from blurred to sharp.
+        primaryRef.current.style.opacity = fade ? String(fade) : '1'
         primaryRef.current.style.filter = aura
           ? `drop-shadow(0 0 ${3 + aura * 9}px rgba(220, 38, 38, ${aura * 0.6}))`
-          : 'none'
+          : fade
+            ? `blur(${(1 - fade) * FADE_BLUR}px)`
+            : 'none'
       }
       raf = requestAnimationFrame(tick)
     }

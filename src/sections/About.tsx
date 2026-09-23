@@ -9,13 +9,14 @@ import { education, experience } from '../data/timeline'
 import { projects } from '../data/projects'
 import { usePortfolioTab } from '../lib/portfolioTab'
 import type { PortfolioTab } from '../lib/portfolioTab.types'
+import { scrollToSection } from '../lib/scrollToSection'
 
 export function About() {
   const { setTab } = usePortfolioTab()
 
   function goToPortfolio(tab: PortfolioTab) {
     setTab(tab)
-    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
+    scrollToSection('portfolio')
   }
 
   return (

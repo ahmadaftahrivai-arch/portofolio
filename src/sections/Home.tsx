@@ -4,6 +4,7 @@ import { Typewriter } from '../components/Typewriter'
 import { ArrowRightIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from '../components/icons'
 import { profile } from '../data/profile'
 import { music } from '../data/music'
+import { scrollToSection } from '../lib/scrollToSection'
 
 const iconMap = {
   github: GithubIcon,
@@ -38,7 +39,7 @@ export function Home() {
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Button href="#portfolio" onClick={(e) => {
             e.preventDefault()
-            document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
+            scrollToSection('portfolio')
           }}>
             Project <ArrowRightIcon />
           </Button>
@@ -47,7 +48,7 @@ export function Home() {
             href="#contact"
             onClick={(e) => {
               e.preventDefault()
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+              scrollToSection('contact')
             }}
           >
             Contact Me

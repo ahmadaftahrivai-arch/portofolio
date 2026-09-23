@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useActiveSection } from '../lib/useActiveSection'
 import { useSlidingIndicator } from '../lib/useSlidingIndicator'
+import { scrollToSection } from '../lib/scrollToSection'
 
 const links = [
   { id: 'home', label: 'Home' },
@@ -60,7 +61,7 @@ export function Navbar() {
 
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
     e.preventDefault()
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    scrollToSection(id)
   }
 
   return (

@@ -1,35 +1,57 @@
 import { useEffect, useState } from 'react'
+import { NAV_SCROLL_EVENT } from './scrollToSection'
 
 /**
- * Tracks which of the given section ids is currently most visible in the
- * viewport, for navbar active-state highlighting.
+ * Tracks which of the given section ids the reader is in, for navbar
+ * active-state highlighting: the last section whose top has passed 40% of
+ * the viewport (or the last one once the page bottom is reached). While a
+ * nav click is scrolling, it holds the clicked section instead of flicking
+ * through every section passed on the way.
  */
 export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState(ids[0])
+  const key = ids.join(',')
 
   useEffect(() => {
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null)
+    const sectionIds = key.split(',')
+    let navTarget: string | null = null
+    let raf = 0
 
-    if (elements.length === 0) return
+    function measure() {
+      raf = 0
+      if (navTarget) return
+      const line = window.innerHeight * 0.4
+      const atBottom =
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+      let current = sectionIds[0]
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) current = id
+      }
+      setActive(atBottom ? sectionIds[sectionIds.length - 1] : current)
+    }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    function schedule() {
+      if (!raf) raf = requestAnimationFrame(measure)
+    }
 
-        if (visible[0]) {
-          setActive(visible[0].target.id)
-        }
-      },
-      { rootMargin: '-40% 0px -40% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
-    )
+    function onNavScroll(e: Event) {
+      navTarget = (e as CustomEvent<string | null>).detail
+      if (navTarget) setActive(navTarget)
+      else schedule()
+    }
 
-    elements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [ids])
+    measure()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    window.addEventListener(NAV_SCROLL_EVENT, onNavScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      window.removeEventListener(NAV_SCROLL_EVENT, onNavScroll)
+    }
+  }, [key])
 
   return active
 }
